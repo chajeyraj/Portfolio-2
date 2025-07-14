@@ -57,41 +57,71 @@ export class MemStorage implements IStorage {
   }
 
   private seedData() {
-    // Seed projects
+    // Seed projects by category
     const seedProjects: InsertProject[] = [
+      // Figma Work (UI/UX design and prototypes)
+      {
+        title: "Modern Dashboard UI",
+        description: "Complete UI/UX design system with interactive prototypes for a SaaS analytics platform",
+        image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+        technologies: ["Figma", "UI/UX", "Prototyping", "Design System"],
+        githubUrl: "https://github.com/chanakaprasanna/dashboard-ui",
+        liveUrl: "https://figma.com/dashboard-prototype",
+        featured: 1,
+        category: "figma"
+      },
+      {
+        title: "Mobile App Design",
+        description: "Complete mobile app design with user journey mapping and interactive prototypes",
+        image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+        technologies: ["Figma", "Mobile Design", "User Research", "Wireframing"],
+        githubUrl: "https://github.com/chanakaprasanna/mobile-design",
+        liveUrl: "https://figma.com/mobile-app-prototype",
+        featured: 0,
+        category: "figma"
+      },
+      
+      // Frontend Work (React, HTML, CSS, animations)
+      {
+        title: "Interactive Portfolio",
+        description: "Modern portfolio website with advanced animations and responsive design",
+        image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+        technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+        githubUrl: "https://github.com/chanakaprasanna/portfolio",
+        liveUrl: "https://chanakaprasanna.dev",
+        featured: 1,
+        category: "frontend"
+      },
+      {
+        title: "E-commerce Landing Page",
+        description: "High-converting landing page with modern design and smooth animations",
+        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+        technologies: ["React", "Next.js", "CSS3", "GSAP"],
+        githubUrl: "https://github.com/chanakaprasanna/ecommerce-landing",
+        liveUrl: "https://ecommerce-landing-demo.com",
+        featured: 0,
+        category: "frontend"
+      },
+      
+      // Full Stack Projects (with backend integration, APIs, databases)
       {
         title: "Personal Assistant",
         description: "Contextual Conversations Using RAG - Advanced AI assistant with natural language processing capabilities",
         image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-        technologies: ["Python", "RAG", "NLP", "OpenAI"],
+        technologies: ["Python", "RAG", "NLP", "OpenAI", "PostgreSQL"],
         githubUrl: "https://github.com/chanakaprasanna/personal-assistant",
         liveUrl: "https://personal-assistant-demo.com",
-        featured: 1
+        featured: 1,
+        category: "full-stack"
       },
       {
         title: "Potato Disease Prediction",
         description: "Deep Learning-based Image Classification for Identifying Potato Diseases using CNN",
         image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-        technologies: ["TensorFlow", "CNN", "Computer Vision", "Python"],
+        technologies: ["TensorFlow", "CNN", "Computer Vision", "Python", "Flask"],
         githubUrl: "https://github.com/chanakaprasanna/potato-disease",
-        featured: 1
-      },
-      {
-        title: "Sentiment Analysis",
-        description: "Classifying movie reviews using deep learning and cloud deployment with real-time processing",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-        technologies: ["LSTM", "AWS", "Flask", "NLP"],
-        githubUrl: "https://github.com/chanakaprasanna/sentiment-analysis",
-        featured: 1
-      },
-      {
-        title: "Blog Generator",
-        description: "Transforming YouTube videos into high-quality blog posts with AI agents and automation",
-        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-        technologies: ["OpenAI", "LangChain", "React", "Node.js"],
-        githubUrl: "https://github.com/chanakaprasanna/blog-generator",
-        liveUrl: "https://blog-generator-demo.com",
-        featured: 1
+        featured: 1,
+        category: "full-stack"
       },
       {
         title: "SmartPOS System",
@@ -99,16 +129,40 @@ export class MemStorage implements IStorage {
         image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
         technologies: ["React", "Node.js", "MongoDB", "Express"],
         githubUrl: "https://github.com/chanakaprasanna/smartpos",
-        featured: 0
+        featured: 0,
+        category: "full-stack"
       },
       {
-        title: "LearnAI Platform",
-        description: "AI-Powered Learning Platform with intelligent content processing and personalized education",
+        title: "Blog Generator",
+        description: "Transforming YouTube videos into high-quality blog posts with AI agents and automation",
+        image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+        technologies: ["OpenAI", "LangChain", "React", "Node.js", "MongoDB"],
+        githubUrl: "https://github.com/chanakaprasanna/blog-generator",
+        liveUrl: "https://blog-generator-demo.com",
+        featured: 1,
+        category: "full-stack"
+      },
+      
+      // Animation Work (creative motion design, scroll effects, interactive UI)
+      {
+        title: "Scroll-Based Storytelling",
+        description: "Interactive storytelling website with advanced scroll-triggered animations",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+        technologies: ["GSAP", "ScrollMagic", "Three.js", "WebGL"],
+        githubUrl: "https://github.com/chanakaprasanna/scroll-story",
+        liveUrl: "https://scroll-story-demo.com",
+        featured: 1,
+        category: "animation"
+      },
+      {
+        title: "Interactive 3D Gallery",
+        description: "Immersive 3D gallery with particle effects and interactive animations",
         image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
-        technologies: ["React", "Express", "Python", "AI"],
-        githubUrl: "https://github.com/chanakaprasanna/learn-ai",
-        liveUrl: "https://learn-ai-demo.com",
-        featured: 0
+        technologies: ["Three.js", "WebGL", "Framer Motion", "React"],
+        githubUrl: "https://github.com/chanakaprasanna/3d-gallery",
+        liveUrl: "https://3d-gallery-demo.com",
+        featured: 0,
+        category: "animation"
       }
     ];
 
@@ -187,7 +241,8 @@ export class MemStorage implements IStorage {
       createdAt: new Date(),
       githubUrl: insertProject.githubUrl || null,
       liveUrl: insertProject.liveUrl || null,
-      featured: insertProject.featured || 0
+      featured: insertProject.featured || 0,
+      category: insertProject.category || "full-stack"
     };
     this.projects.set(id, project);
     return project;

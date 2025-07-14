@@ -11,6 +11,7 @@ export const projects = pgTable("projects", {
   githubUrl: text("github_url"),
   liveUrl: text("live_url"),
   featured: integer("featured").default(0),
+  category: text("category").notNull().default("full-stack"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
