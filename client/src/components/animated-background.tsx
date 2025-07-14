@@ -18,6 +18,15 @@ export function AnimatedBackground() {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
+    // Wave animation variables
+    let time = 0;
+    const waves = [
+      { amplitude: 30, frequency: 0.02, speed: 0.01, color: "rgba(99, 102, 241, 0.1)" },
+      { amplitude: 40, frequency: 0.015, speed: 0.015, color: "rgba(168, 85, 247, 0.08)" },
+      { amplitude: 25, frequency: 0.025, speed: 0.008, color: "rgba(59, 130, 246, 0.06)" },
+    ];
+
+    // Floating particles
     const particles: Array<{
       x: number;
       y: number;
@@ -25,61 +34,90 @@ export function AnimatedBackground() {
       speedX: number;
       speedY: number;
       color: string;
+      opacity: number;
     }> = [];
 
     const colors = [
-      "rgba(99, 102, 241, 0.1)",
-      "rgba(168, 85, 247, 0.1)",
+      "rgba(99, 102, 241, 0.15)",
+      "rgba(168, 85, 247, 0.12)",
       "rgba(236, 72, 153, 0.1)",
-      "rgba(59, 130, 246, 0.1)",
-      "rgba(16, 185, 129, 0.1)",
+      "rgba(59, 130, 246, 0.13)",
+      "rgba(16, 185, 129, 0.11)",
     ];
 
     // Create particles
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 80; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 2 + 1,
-        speedX: (Math.random() - 0.5) * 0.5,
-        speedY: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 3 + 1,
+        speedX: (Math.random() - 0.5) * 0.8,
+        speedY: (Math.random() - 0.5) * 0.8,
         color: colors[Math.floor(Math.random() * colors.length)],
+        opacity: Math.random() * 0.5 + 0.2,
       });
     }
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      particles.forEach((particle) => {
-        particle.x += particle.speedX;
-        particle.y += particle.speedY;
-
-        if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
-        if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
-
+      // Draw animated waves
+      waves.forEach((wave, index) => {
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = particle.color;
+        ctx.moveTo(0, canvas.height / 2);
+        
+        for (let x = 0; x <= canvas.width; x += 2) {
+          const y = canvas.height / 2 + 
+                   Math.sin(x * wave.frequency + time * wave.speed) * wave.amplitude +
+                   Math.sin(x * wave.frequency * 2 + time * wave.speed * 1.5) * (wave.amplitude * 0.5);
+          ctx.lineTo(x, y);
+        }
+        
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.lineTo(0, canvas.height);
+        ctx.closePath();
+        
+        ctx.fillStyle = wave.color;
         ctx.fill();
       });
 
-      // Draw connections
+      // Draw and update particles
       particles.forEach((particle, index) => {
-        particles.slice(index + 1).forEach((otherParticle) => {
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+
+        // Bounce off edges
+        if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1;
+
+        // Pulsing effect
+        particle.opacity = 0.3 + Math.sin(time * 0.02 + index * 0.1) * 0.2;
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = particle.color.replace(/[\d\.]+\)$/g, `${particle.opacity})`);
+        ctx.fill();
+      });
+
+      // Draw connecting lines between nearby particles
+      particles.forEach((particle, index) => {
+        particles.slice(index + 1, index + 6).forEach((otherParticle) => {
           const dx = particle.x - otherParticle.x;
           const dy = particle.y - otherParticle.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 100) {
+          if (distance < 120) {
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.strokeStyle = `rgba(99, 102, 241, ${0.1 - distance / 1000})`;
+            ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 - distance / 800})`;
+            ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         });
       });
 
+      time += 1;
       requestAnimationFrame(animate);
     };
 

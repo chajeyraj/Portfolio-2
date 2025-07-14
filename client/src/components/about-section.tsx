@@ -25,10 +25,10 @@ import {
 
 export function AboutSection() {
   const stats = [
-    { value: "15+", label: "Projects Completed", color: "from-indigo-500 to-purple-500" },
-    { value: "3+", label: "Years Experience", color: "from-purple-500 to-pink-500" },
-    { value: "100%", label: "Client Satisfaction", color: "from-cyan-500 to-emerald-500" },
-    { value: "24/7", label: "Available", color: "from-emerald-500 to-teal-500" },
+    { value: "15+", label: "Projects Completed", color: "from-indigo-500 to-purple-500", icon: <Code className="w-6 h-6" /> },
+    { value: "3+", label: "Years Experience", color: "from-purple-500 to-pink-500", icon: <Clock className="w-6 h-6" /> },
+    { value: "100%", label: "Client Satisfaction", color: "from-cyan-500 to-emerald-500", icon: <Users className="w-6 h-6" /> },
+    { value: "24/7", label: "Available", color: "from-emerald-500 to-teal-500", icon: <Target className="w-6 h-6" /> },
   ];
 
   const skillsData = [
@@ -115,7 +115,7 @@ export function AboutSection() {
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -124,11 +124,14 @@ export function AboutSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <GlassCard className="p-6 text-center" hover>
+              <GlassCard className="p-6 text-center group" hover>
+                <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${stat.color} flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300`}>
+                  {stat.icon}
+                </div>
                 <div className={`text-3xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
                   {stat.value}
                 </div>
-                <div className="text-gray-700 dark:text-gray-300">{stat.label}</div>
+                <div className="text-gray-700 dark:text-gray-300 font-medium">{stat.label}</div>
               </GlassCard>
             </motion.div>
           ))}
@@ -166,49 +169,59 @@ export function AboutSection() {
         </div>
 
         {/* About Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+        <div className="mb-16">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="text-center mb-12"
           >
-            <img
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600"
-              alt="Modern office workspace"
-              className="rounded-3xl shadow-2xl w-full h-auto"
-            />
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-              Building intelligent solutions with code
-            </h3>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-              I constantly try to improve my skills and stay updated with the latest technologies.
-              Available to connect seamlessly across any time zone, I'm committed to delivering
-              exceptional results through effortless client collaboration and transparency.
-            </p>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-              Transform. Develop. Achieve. As a motivated individual with a strong interest in
-              AI/ML & Software developments, I bridge the gap between human needs and machine capabilities.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <span className="px-4 py-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full font-medium">
-                AI/ML Enthusiast
-              </span>
-              <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-700 dark:text-purple-300 rounded-full font-medium">
-                Software Developer
-              </span>
-              <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 dark:text-cyan-300 rounded-full font-medium">
-                Problem Solver
-              </span>
-            </div>
+            <GlassCard className="p-8 max-w-4xl mx-auto">
+              <div className="mb-8">
+                <div className="w-24 h-24 mx-auto mb-6 gradient-bg rounded-full p-1">
+                  <div className="w-full h-full bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                    <span className="text-2xl font-bold text-gray-600 dark:text-gray-400">CP</span>
+                  </div>
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  Building intelligent solutions with code
+                </h3>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <div>
+                  <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                    I constantly try to improve my skills and stay updated with the latest technologies.
+                    Available to connect seamlessly across any time zone, I'm committed to delivering
+                    exceptional results through effortless client collaboration and transparency.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <span className="px-4 py-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full font-medium text-sm">
+                      AI/ML Enthusiast
+                    </span>
+                    <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-700 dark:text-purple-300 rounded-full font-medium text-sm">
+                      Software Developer
+                    </span>
+                  </div>
+                </div>
+                
+                <div>
+                  <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                    Transform. Develop. Achieve. As a motivated individual with a strong interest in
+                    AI/ML & Software developments, I bridge the gap between human needs and machine capabilities.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 dark:text-cyan-300 rounded-full font-medium text-sm">
+                      Problem Solver
+                    </span>
+                    <span className="px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-700 dark:text-orange-300 rounded-full font-medium text-sm">
+                      Innovation Focused
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </GlassCard>
           </motion.div>
         </div>
 
