@@ -101,8 +101,8 @@ export function ProjectsSection() {
           </p>
         </motion.div>
 
-        {/* Categories */}
-        <div className="space-y-16">
+        {/* Categories with Horizontal Scrolling */}
+        <div className="space-y-12">
           {categories.map((category, categoryIndex) => {
             const categoryProjects = projectsByCategory[category.key] || [];
             if (categoryProjects.length === 0) return null;
@@ -116,104 +116,114 @@ export function ProjectsSection() {
                 viewport={{ once: true }}
               >
                 {/* Category Header */}
-                <div className="mb-8">
-                  <GlassCard className="p-6 mb-6">
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-2xl bg-gradient-to-r ${category.gradient} flex items-center justify-center text-white`}>
-                        {category.icon}
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                          {category.title}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-400">
-                          {category.subtitle}
-                        </p>
-                      </div>
+                <div className="mb-6">
+                  <div className="category-header">
+                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-r ${category.gradient} flex items-center justify-center text-white shadow-lg`}>
+                      {category.icon}
                     </div>
-                  </GlassCard>
+                    <div className="ml-4">
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                        {category.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        {category.subtitle}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Projects Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {categoryProjects.map((project, index) => (
-                    <motion.div
-                      key={project.id}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                    >
-                      <GlassCard className="p-6 h-full group" hover>
-                        <div className="mb-4 relative overflow-hidden rounded-2xl">
-                          <img
-                            src={project.image}
-                            alt={project.title}
-                            className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                          <div className={`absolute inset-0 bg-gradient-to-t ${category.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                        </div>
-                        
-                        <div className="flex items-center space-x-2 mb-3">
-                          <div className={`w-6 h-6 rounded-lg bg-gradient-to-r ${category.gradient} flex items-center justify-center text-white text-xs`}>
-                            {category.icon}
+                {/* Horizontal Scrolling Projects */}
+                <div className="overflow-x-auto horizontal-scroll pb-6">
+                  <div className="flex space-x-6 w-max px-1">
+                    {categoryProjects.map((project, index) => (
+                      <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        className="flex-shrink-0"
+                      >
+                        <GlassCard className="p-6 w-80 h-full group" hover>
+                          <div className="mb-4 relative overflow-hidden rounded-2xl">
+                            <img
+                              src={project.image}
+                              alt={project.title}
+                              className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                            <div className={`absolute inset-0 bg-gradient-to-t ${category.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                           </div>
-                          <span className={`text-sm font-medium bg-gradient-to-r ${category.gradient} bg-clip-text text-transparent`}>
-                            {category.title}
-                          </span>
-                        </div>
+                          
+                          <div className="flex items-center space-x-2 mb-3">
+                            <div className={`w-6 h-6 rounded-lg bg-gradient-to-r ${category.gradient} flex items-center justify-center text-white text-xs`}>
+                              {category.icon}
+                            </div>
+                            <span className={`text-sm font-medium bg-gradient-to-r ${category.gradient} bg-clip-text text-transparent`}>
+                              {category.title}
+                            </span>
+                          </div>
 
-                        <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                          {project.title}
-                        </h4>
-                        <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                          {project.description}
-                        </p>
-                        
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {Array.isArray(project.technologies) ? project.technologies.slice(0, 3).map((tech, techIndex) => (
-                            <span
-                              key={techIndex}
-                              className={`px-3 py-1 bg-gradient-to-r ${category.bgGradient} text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium`}
-                            >
-                              {tech}
-                            </span>
-                          )) : null}
-                          {Array.isArray(project.technologies) && project.technologies.length > 3 && (
-                            <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full text-sm">
-                              +{project.technologies.length - 3} more
-                            </span>
-                          )}
-                        </div>
-                        
-                        <div className="flex space-x-4 mt-auto">
-                          {project.githubUrl && (
-                            <a
-                              href={project.githubUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-                            >
-                              <Github className="w-4 h-4" />
-                              <span>Code</span>
-                            </a>
-                          )}
-                          {project.liveUrl && (
-                            <a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                              <span>Live</span>
-                            </a>
-                          )}
-                        </div>
-                      </GlassCard>
-                    </motion.div>
-                  ))}
+                          <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                            {project.title}
+                          </h4>
+                          <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                            {project.description}
+                          </p>
+                          
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {Array.isArray(project.technologies) ? project.technologies.slice(0, 3).map((tech, techIndex) => (
+                              <span
+                                key={techIndex}
+                                className={`px-3 py-1 bg-gradient-to-r ${category.bgGradient} text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium`}
+                              >
+                                {tech}
+                              </span>
+                            )) : null}
+                            {Array.isArray(project.technologies) && project.technologies.length > 3 && (
+                              <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full text-sm">
+                                +{project.technologies.length - 3} more
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div className="flex space-x-4 mt-auto">
+                            {project.githubUrl && (
+                              <a
+                                href={project.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                              >
+                                <Github className="w-4 h-4" />
+                                <span>Code</span>
+                              </a>
+                            )}
+                            {project.liveUrl && (
+                              <a
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                              >
+                                <ExternalLink className="w-4 h-4" />
+                                <span>Live</span>
+                              </a>
+                            )}
+                          </div>
+                        </GlassCard>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
+
+                {/* Scroll Indicator - only show if there are multiple projects */}
+                {categoryProjects.length > 1 && (
+                  <div className="flex justify-center mt-4">
+                    <div className="flex items-center space-x-2 text-gray-400 dark:text-gray-600 text-sm">
+                      <span>← Scroll to see more projects →</span>
+                    </div>
+                  </div>
+                )}
               </motion.div>
             );
           })}

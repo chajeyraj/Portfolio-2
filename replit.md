@@ -10,6 +10,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### July 21, 2025 - Project Management & Horizontal Scrolling Layout
+- **Fixed Project Management Issue**: Resolved bug where new projects weren't appearing in the projects list after creation
+- **Added Complete API Endpoints**: Implemented missing POST, PUT, DELETE routes for projects with proper validation
+- **React Query Integration**: Converted admin dashboard to use React Query with proper cache invalidation for real-time updates
+- **Horizontal Scrolling Layout**: Updated Recent Projects section to display all items in horizontal scrolling format
+- **Enhanced Category Headers**: Improved visual design of the 4 category headings with gradient icons and decorative lines
+- **Custom Scrollbar Styling**: Added smooth custom scrollbars for better horizontal scrolling experience
+- **Mobile-Optimized Scrolling**: Enhanced touch scrolling behavior for mobile devices
+
 ### July 14, 2025 - Enhanced About Section & Footer
 - **About Section Redesign**: Complete layout overhaul with centered card design, improved visual hierarchy, and better content organization
 - **Enhanced Background Animation**: Added flowing wave animations with layered particle effects for more dynamic visual appeal
