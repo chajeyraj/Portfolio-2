@@ -89,17 +89,17 @@ namespace Portfolio.Services
                     Featured = true,
                     Category = "full-stack"
                 },
-                // Add your new projects here
+                // Add your new projects here - Replace this with your actual project details
                 new Project
                 {
-                    Title = "Your New Project Title",
-                    Description = "Your project description here",
-                    Image = "https://your-image-url.com/image.jpg",
-                    Technologies = new List<string> { "Technology1", "Technology2", "Technology3" },
-                    GithubUrl = "https://github.com/yourusername/your-repo",
-                    LiveUrl = "https://your-live-demo.com",
-                    Featured = false,
-                    Category = "frontend" // Options: "figma", "frontend", "full-stack", "animation"
+                    Title = "E-Commerce Platform",
+                    Description = "Full-stack e-commerce solution with payment integration and admin dashboard",
+                    Image = "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+                    Technologies = new List<string> { "React", "ASP.NET Core", "Entity Framework", "Stripe" },
+                    GithubUrl = "https://github.com/yourusername/ecommerce-platform",
+                    LiveUrl = "https://your-ecommerce-demo.com",
+                    Featured = true,
+                    Category = "full-stack"
                 }
             };
 
