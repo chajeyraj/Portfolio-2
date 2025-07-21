@@ -19,6 +19,8 @@ export interface IStorage {
   getFeaturedProjects(): Promise<Project[]>;
   getProjectById(id: number): Promise<Project | undefined>;
   createProject(project: InsertProject): Promise<Project>;
+  updateProject(id: number, project: Partial<InsertProject>): Promise<Project | undefined>;
+  deleteProject(id: number): Promise<boolean>;
   
   // Experiences
   getAllExperiences(): Promise<Experience[]>;
@@ -246,6 +248,31 @@ export class MemStorage implements IStorage {
     };
     this.projects.set(id, project);
     return project;
+  }
+
+  async updateProject(id: number, updateData: Partial<InsertProject>): Promise<Project | undefined> {
+    const existingProject = this.projects.get(id);
+    if (!existingProject) {
+      return undefined;
+    }
+    
+    const updatedProject: Project = {
+      ...existingProject,
+      ...updateData,
+      id, // Ensure ID doesn't change
+      createdAt: existingProject.createdAt, // Preserve original creation date
+      githubUrl: updateData.githubUrl !== undefined ? updateData.githubUrl || null : existingProject.githubUrl,
+      liveUrl: updateData.liveUrl !== undefined ? updateData.liveUrl || null : existingProject.liveUrl,
+      featured: updateData.featured !== undefined ? updateData.featured : existingProject.featured,
+      category: updateData.category || existingProject.category
+    };
+    
+    this.projects.set(id, updatedProject);
+    return updatedProject;
+  }
+
+  async deleteProject(id: number): Promise<boolean> {
+    return this.projects.delete(id);
   }
 
   // Experiences

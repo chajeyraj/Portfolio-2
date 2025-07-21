@@ -8,34 +8,124 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Trash2, Edit, Plus } from 'lucide-react';
+import { Trash2, Edit, Plus, Loader2 } from 'lucide-react';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { apiRequest, queryClient } from '@/lib/queryClient';
+import type { Project } from '@shared/schema';
 
-interface Project {
-  id?: number;
+interface NewProject {
   title: string;
   description: string;
   image: string;
   technologies: string[];
   githubUrl: string;
   liveUrl: string;
-  featured: boolean;
+  featured: number;
   category: string;
 }
 
 export default function AdminDashboard() {
-  const [projects, setProjects] = useState<Project[]>([]);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
-  const [newProject, setNewProject] = useState<Project>({
+  const [newProject, setNewProject] = useState<NewProject>({
     title: '',
     description: '',
     image: '',
     technologies: [],
     githubUrl: '',
     liveUrl: '',
-    featured: false,
+    featured: 0,
     category: 'frontend'
   });
   const { toast } = useToast();
+
+  // Fetch projects using React Query
+  const { data: projects = [], isLoading, error } = useQuery<Project[]>({
+    queryKey: ['/api/projects'],
+  });
+
+  // Create project mutation
+  const createProjectMutation = useMutation({
+    mutationFn: async (projectData: NewProject) => {
+      const response = await apiRequest('POST', '/api/projects', projectData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Project added successfully!',
+      });
+      
+      // Reset form
+      setNewProject({
+        title: '',
+        description: '',
+        image: '',
+        technologies: [],
+        githubUrl: '',
+        liveUrl: '',
+        featured: 0,
+        category: 'frontend'
+      });
+      
+      // Invalidate and refetch projects
+      queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'Failed to add project',
+        variant: 'destructive',
+      });
+    }
+  });
+
+  // Update project mutation
+  const updateProjectMutation = useMutation({
+    mutationFn: async ({ id, projectData }: { id: number; projectData: Partial<NewProject> }) => {
+      const response = await apiRequest('PUT', `/api/projects/${id}`, projectData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Project updated successfully!',
+      });
+      
+      setEditingProject(null);
+      // Invalidate and refetch projects
+      queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'Failed to update project',
+        variant: 'destructive',
+      });
+    }
+  });
+
+  // Delete project mutation
+  const deleteProjectMutation = useMutation({
+    mutationFn: async (id: number) => {
+      await apiRequest('DELETE', `/api/projects/${id}`);
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Success',
+        description: 'Project deleted successfully!',
+      });
+      
+      // Invalidate and refetch projects
+      queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
+    },
+    onError: () => {
+      toast({
+        title: 'Error',
+        description: 'Failed to delete project',
+        variant: 'destructive',
+      });
+    }
+  });
 
   useEffect(() => {
     // Check admin authentication
@@ -43,23 +133,7 @@ export default function AdminDashboard() {
       window.location.href = '/admin';
       return;
     }
-    
-    fetchProjects();
   }, []);
-
-  const fetchProjects = async () => {
-    try {
-      const response = await fetch('/api/projects');
-      const data = await response.json();
-      setProjects(data);
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to fetch projects',
-        variant: 'destructive',
-      });
-    }
-  };
 
   const handleLogout = () => {
     localStorage.removeItem('adminAuth');
@@ -75,105 +149,29 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleAddProject = async () => {
-    try {
-      const response = await fetch('/api/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newProject),
-      });
-
-      if (response.ok) {
-        toast({
-          title: 'Success',
-          description: 'Project added successfully!',
-        });
-        
-        // Reset form
-        setNewProject({
-          title: '',
-          description: '',
-          image: '',
-          technologies: [],
-          githubUrl: '',
-          liveUrl: '',
-          featured: false,
-          category: 'frontend'
-        });
-        
-        // Refresh projects list
-        fetchProjects();
-      } else {
-        throw new Error('Failed to add project');
-      }
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to add project',
-        variant: 'destructive',
-      });
-    }
+  const handleAddProject = () => {
+    createProjectMutation.mutate(newProject);
   };
 
-  const handleUpdateProject = async () => {
+  const handleUpdateProject = () => {
     if (!editingProject) return;
     
-    try {
-      const response = await fetch(`/api/projects/${editingProject.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(editingProject),
-      });
-
-      if (response.ok) {
-        toast({
-          title: 'Success',
-          description: 'Project updated successfully!',
-        });
-        
-        setEditingProject(null);
-        fetchProjects();
-      } else {
-        throw new Error('Failed to update project');
+    const { id, createdAt, ...projectData } = editingProject;
+    updateProjectMutation.mutate({
+      id: id!,
+      projectData: {
+        ...projectData,
+        featured: projectData.featured || 0,
+        technologies: Array.isArray(projectData.technologies) ? projectData.technologies : [],
+        githubUrl: projectData.githubUrl || '',
+        liveUrl: projectData.liveUrl || ''
       }
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to update project',
-        variant: 'destructive',
-      });
-    }
+    });
   };
 
-  const handleDeleteProject = async (id: number) => {
+  const handleDeleteProject = (id: number) => {
     if (!confirm('Are you sure you want to delete this project?')) return;
-    
-    try {
-      const response = await fetch(`/api/projects/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        toast({
-          title: 'Success',
-          description: 'Project deleted successfully!',
-        });
-        
-        fetchProjects();
-      } else {
-        throw new Error('Failed to delete project');
-      }
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to delete project',
-        variant: 'destructive',
-      });
-    }
+    deleteProjectMutation.mutate(id);
   };
 
   return (
@@ -198,24 +196,54 @@ export default function AdminDashboard() {
                 <CardTitle>Manage Projects</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {projects.map((project) => (
-                    <div key={project.id} className="flex items-center justify-between p-4 border rounded-lg">
-                      <div>
-                        <h3 className="font-semibold">{project.title}</h3>
-                        <p className="text-sm text-gray-600">{project.category} • {project.featured ? 'Featured' : 'Regular'}</p>
+                {isLoading ? (
+                  <div className="flex justify-center items-center py-8">
+                    <Loader2 className="w-6 h-6 animate-spin" />
+                  </div>
+                ) : error ? (
+                  <div className="text-center py-8 text-red-600">
+                    Failed to load projects. Please try again.
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {projects.length === 0 ? (
+                      <div className="text-center py-8 text-gray-500">
+                        No projects found. Add your first project!
                       </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline" onClick={() => setEditingProject(project)}>
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button size="sm" variant="destructive" onClick={() => handleDeleteProject(project.id!)}>
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ) : (
+                      projects.map((project) => (
+                        <div key={project.id} className="flex items-center justify-between p-4 border rounded-lg">
+                          <div>
+                            <h3 className="font-semibold">{project.title}</h3>
+                            <p className="text-sm text-gray-600">{project.category} • {project.featured ? 'Featured' : 'Regular'}</p>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              onClick={() => setEditingProject(project)}
+                              disabled={updateProjectMutation.isPending}
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="destructive" 
+                              onClick={() => handleDeleteProject(project.id!)}
+                              disabled={deleteProjectMutation.isPending}
+                            >
+                              {deleteProjectMutation.isPending ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                              ) : (
+                                <Trash2 className="w-4 h-4" />
+                              )}
+                            </Button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -302,8 +330,8 @@ export default function AdminDashboard() {
                   <input
                     type="checkbox"
                     id="featured"
-                    checked={newProject.featured}
-                    onChange={(e) => setNewProject(prev => ({ ...prev, featured: e.target.checked }))}
+                    checked={newProject.featured === 1}
+                    onChange={(e) => setNewProject(prev => ({ ...prev, featured: e.target.checked ? 1 : 0 }))}
                   />
                   <Label htmlFor="featured">Featured Project</Label>
                 </div>
@@ -311,8 +339,13 @@ export default function AdminDashboard() {
                 <Button 
                   onClick={handleAddProject}
                   className="w-full"
+                  disabled={createProjectMutation.isPending}
                 >
-                  <Plus className="w-4 h-4 mr-2" />
+                  {createProjectMutation.isPending ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Plus className="w-4 h-4 mr-2" />
+                  )}
                   Add Project
                 </Button>
               </CardContent>
@@ -374,7 +407,7 @@ export default function AdminDashboard() {
                     <Label htmlFor="edit-technologies">Technologies (comma separated)</Label>
                     <Input
                       id="edit-technologies"
-                      value={editingProject.technologies.join(', ')}
+                      value={Array.isArray(editingProject.technologies) ? editingProject.technologies.join(', ') : ''}
                       onChange={(e) => handleTechnologiesChange(e.target.value, false)}
                     />
                   </div>
@@ -385,7 +418,7 @@ export default function AdminDashboard() {
                     <Label htmlFor="edit-github">GitHub URL</Label>
                     <Input
                       id="edit-github"
-                      value={editingProject.githubUrl}
+                      value={editingProject.githubUrl || ''}
                       onChange={(e) => setEditingProject({ ...editingProject, githubUrl: e.target.value })}
                     />
                   </div>
@@ -393,7 +426,7 @@ export default function AdminDashboard() {
                     <Label htmlFor="edit-live">Live URL</Label>
                     <Input
                       id="edit-live"
-                      value={editingProject.liveUrl}
+                      value={editingProject.liveUrl || ''}
                       onChange={(e) => setEditingProject({ ...editingProject, liveUrl: e.target.value })}
                     />
                   </div>
@@ -403,8 +436,8 @@ export default function AdminDashboard() {
                   <input
                     type="checkbox"
                     id="edit-featured"
-                    checked={editingProject.featured}
-                    onChange={(e) => setEditingProject({ ...editingProject, featured: e.target.checked })}
+                    checked={editingProject.featured === 1}
+                    onChange={(e) => setEditingProject({ ...editingProject, featured: e.target.checked ? 1 : 0 })}
                   />
                   <Label htmlFor="edit-featured">Featured Project</Label>
                 </div>
@@ -413,7 +446,13 @@ export default function AdminDashboard() {
                   <Button variant="outline" onClick={() => setEditingProject(null)}>
                     Cancel
                   </Button>
-                  <Button onClick={handleUpdateProject}>
+                  <Button 
+                    onClick={handleUpdateProject}
+                    disabled={updateProjectMutation.isPending}
+                  >
+                    {updateProjectMutation.isPending ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : null}
                     Update Project
                   </Button>
                 </div>
