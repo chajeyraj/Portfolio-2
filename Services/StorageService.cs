@@ -149,5 +149,38 @@ namespace Portfolio.Services
             _context.Testimonials.AddRange(testimonials);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Project> CreateProjectAsync(Project project)
+        {
+            _context.Projects.Add(project);
+            await _context.SaveChangesAsync();
+            return project;
+        }
+
+        public async Task<Project?> UpdateProjectAsync(Project project)
+        {
+            var existingProject = await _context.Projects.FindAsync(project.Id);
+            if (existingProject == null)
+            {
+                return null;
+            }
+
+            _context.Entry(existingProject).CurrentValues.SetValues(project);
+            await _context.SaveChangesAsync();
+            return existingProject;
+        }
+
+        public async Task<bool> DeleteProjectAsync(int id)
+        {
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
+            {
+                return false;
+            }
+
+            _context.Projects.Remove(project);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

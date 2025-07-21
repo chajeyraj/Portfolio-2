@@ -60,5 +60,56 @@ namespace Portfolio.Controllers
                 return StatusCode(500, new { message = "Failed to fetch project" });
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProject([FromBody] Models.Project project)
+        {
+            try
+            {
+                var createdProject = await _storage.CreateProjectAsync(project);
+                return CreatedAtAction(nameof(GetProjectById), new { id = createdProject.Id }, createdProject);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "Failed to create project" });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProject(int id, [FromBody] Models.Project project)
+        {
+            try
+            {
+                project.Id = id;
+                var updatedProject = await _storage.UpdateProjectAsync(project);
+                if (updatedProject == null)
+                {
+                    return NotFound(new { message = "Project not found" });
+                }
+                return Ok(updatedProject);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "Failed to update project" });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProject(int id)
+        {
+            try
+            {
+                var deleted = await _storage.DeleteProjectAsync(id);
+                if (!deleted)
+                {
+                    return NotFound(new { message = "Project not found" });
+                }
+                return Ok(new { message = "Project deleted successfully" });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "Failed to delete project" });
+            }
+        }
     }
 }

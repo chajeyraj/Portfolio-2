@@ -75,6 +75,107 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleAddProject = async () => {
+    try {
+      const response = await fetch('/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProject),
+      });
+
+      if (response.ok) {
+        toast({
+          title: 'Success',
+          description: 'Project added successfully!',
+        });
+        
+        // Reset form
+        setNewProject({
+          title: '',
+          description: '',
+          image: '',
+          technologies: [],
+          githubUrl: '',
+          liveUrl: '',
+          featured: false,
+          category: 'frontend'
+        });
+        
+        // Refresh projects list
+        fetchProjects();
+      } else {
+        throw new Error('Failed to add project');
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to add project',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleUpdateProject = async () => {
+    if (!editingProject) return;
+    
+    try {
+      const response = await fetch(`/api/projects/${editingProject.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editingProject),
+      });
+
+      if (response.ok) {
+        toast({
+          title: 'Success',
+          description: 'Project updated successfully!',
+        });
+        
+        setEditingProject(null);
+        fetchProjects();
+      } else {
+        throw new Error('Failed to update project');
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to update project',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handleDeleteProject = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this project?')) return;
+    
+    try {
+      const response = await fetch(`/api/projects/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        toast({
+          title: 'Success',
+          description: 'Project deleted successfully!',
+        });
+        
+        fetchProjects();
+      } else {
+        throw new Error('Failed to delete project');
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to delete project',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="border-b bg-white dark:bg-gray-800">
@@ -107,6 +208,9 @@ export default function AdminDashboard() {
                       <div className="flex gap-2">
                         <Button size="sm" variant="outline" onClick={() => setEditingProject(project)}>
                           <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button size="sm" variant="destructive" onClick={() => handleDeleteProject(project.id!)}>
+                          <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
@@ -205,23 +309,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <Button 
-                  onClick={() => {
-                    toast({
-                      title: 'Project Added',
-                      description: 'Project has been added to the seed data. Restart the server to see changes.',
-                    });
-                    // Reset form
-                    setNewProject({
-                      title: '',
-                      description: '',
-                      image: '',
-                      technologies: [],
-                      githubUrl: '',
-                      liveUrl: '',
-                      featured: false,
-                      category: 'frontend'
-                    });
-                  }}
+                  onClick={handleAddProject}
                   className="w-full"
                 >
                   <Plus className="w-4 h-4 mr-2" />
@@ -231,6 +319,108 @@ export default function AdminDashboard() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* Edit Project Dialog */}
+        {editingProject && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-screen overflow-y-auto">
+              <h2 className="text-xl font-bold mb-4">Edit Project</h2>
+              
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="edit-title">Title</Label>
+                    <Input
+                      id="edit-title"
+                      value={editingProject.title}
+                      onChange={(e) => setEditingProject({ ...editingProject, title: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-category">Category</Label>
+                    <Select value={editingProject.category} onValueChange={(value) => setEditingProject({ ...editingProject, category: value })}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="figma">Figma</SelectItem>
+                        <SelectItem value="frontend">Frontend</SelectItem>
+                        <SelectItem value="full-stack">Full Stack</SelectItem>
+                        <SelectItem value="animation">Animation</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                
+                <div>
+                  <Label htmlFor="edit-description">Description</Label>
+                  <Textarea
+                    id="edit-description"
+                    value={editingProject.description}
+                    onChange={(e) => setEditingProject({ ...editingProject, description: e.target.value })}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="edit-image">Image URL</Label>
+                    <Input
+                      id="edit-image"
+                      value={editingProject.image}
+                      onChange={(e) => setEditingProject({ ...editingProject, image: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-technologies">Technologies (comma separated)</Label>
+                    <Input
+                      id="edit-technologies"
+                      value={editingProject.technologies.join(', ')}
+                      onChange={(e) => handleTechnologiesChange(e.target.value, false)}
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="edit-github">GitHub URL</Label>
+                    <Input
+                      id="edit-github"
+                      value={editingProject.githubUrl}
+                      onChange={(e) => setEditingProject({ ...editingProject, githubUrl: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="edit-live">Live URL</Label>
+                    <Input
+                      id="edit-live"
+                      value={editingProject.liveUrl}
+                      onChange={(e) => setEditingProject({ ...editingProject, liveUrl: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="edit-featured"
+                    checked={editingProject.featured}
+                    onChange={(e) => setEditingProject({ ...editingProject, featured: e.target.checked })}
+                  />
+                  <Label htmlFor="edit-featured">Featured Project</Label>
+                </div>
+
+                <div className="flex gap-2 justify-end">
+                  <Button variant="outline" onClick={() => setEditingProject(null)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleUpdateProject}>
+                    Update Project
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
