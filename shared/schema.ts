@@ -45,6 +45,7 @@ export const testimonials = pgTable("testimonials", {
   company: text("company").notNull(),
   content: text("content").notNull(),
   avatar: text("avatar"),
+  facebookId: text("facebook_id"),
   rating: integer("rating").default(5),
   createdAt: timestamp("created_at").defaultNow(),
 });

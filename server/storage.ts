@@ -333,6 +333,7 @@ export class MemStorage implements IStorage {
       id,
       createdAt: new Date(),
       avatar: insertTestimonial.avatar || null,
+      facebookId: insertTestimonial.facebookId || null,
       rating: insertTestimonial.rating || 5
     };
     this.testimonials.set(id, testimonial);

@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertContactSchema, insertProjectSchema } from "@shared/schema";
+import { insertContactSchema, insertProjectSchema, insertTestimonialSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -103,6 +103,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(testimonials);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch testimonials" });
+    }
+  });
+
+  app.post("/api/testimonials", async (req, res) => {
+    try {
+      const testimonialData = insertTestimonialSchema.parse(req.body);
+      const testimonial = await storage.createTestimonial(testimonialData);
+      res.status(201).json({ message: "Review submitted successfully", testimonial });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Invalid review data", 
+          errors: error.errors 
+        });
+      }
+      res.status(500).json({ message: "Failed to submit review" });
     }
   });
 

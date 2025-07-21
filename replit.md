@@ -18,6 +18,9 @@ Preferred communication style: Simple, everyday language.
 - **Enhanced Category Headers**: Improved visual design of the 4 category headings with gradient icons and decorative lines
 - **Custom Scrollbar Styling**: Added smooth custom scrollbars for better horizontal scrolling experience
 - **Mobile-Optimized Scrolling**: Enhanced touch scrolling behavior for mobile devices
+- **Public Review Collection**: Added "Leave a Review" button in Client Testimonials section with form fields for Name, Facebook ID, Comment, and Rating
+- **Client Testimonials Horizontal Scrolling**: Converted testimonials to horizontal scrolling layout with scroll indicators
+- **Review Form Validation**: Implemented proper form validation and error handling for public review submissions
 
 ### July 14, 2025 - Enhanced About Section & Footer
 - **About Section Redesign**: Complete layout overhaul with centered card design, improved visual hierarchy, and better content organization
