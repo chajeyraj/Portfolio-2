@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Data;
 using Portfolio.Models;
@@ -89,6 +88,18 @@ namespace Portfolio.Services
                     LiveUrl = "https://personal-assistant-demo.com",
                     Featured = true,
                     Category = "full-stack"
+                },
+                // Add your new projects here
+                new Project
+                {
+                    Title = "Your New Project Title",
+                    Description = "Your project description here",
+                    Image = "https://your-image-url.com/image.jpg",
+                    Technologies = new List<string> { "Technology1", "Technology2", "Technology3" },
+                    GithubUrl = "https://github.com/yourusername/your-repo",
+                    LiveUrl = "https://your-live-demo.com",
+                    Featured = false,
+                    Category = "frontend" // Options: "figma", "frontend", "full-stack", "animation"
                 }
             };
 
