@@ -41,18 +41,10 @@ app.Urls.Add("http://0.0.0.0:5000");
 
 app.UseCors("AllowAll");
 
-// Configure static files to serve from client/dist
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "client", "dist")),
-    RequestPath = ""
-});
-
+// Serve static files from client dist folder
+app.UseStaticFiles();
 app.UseDefaultFiles(new DefaultFilesOptions
 {
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "client", "dist")),
     DefaultFileNames = new List<string> { "index.html" }
 });
 
@@ -61,11 +53,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Fallback to serve index.html for client-side routing
-app.MapFallbackToFile("index.html", new StaticFileOptions
-{
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "client", "dist"))
-});
+app.MapFallbackToFile("index.html");
 
 // Seed data
 using (var scope = app.Services.CreateScope())
