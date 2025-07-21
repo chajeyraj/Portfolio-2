@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Data;
 using Portfolio.Services;
@@ -30,23 +29,28 @@ builder.Services.AddScoped<IStorageService, StorageService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// Configure to listen on port 5000
+app.Urls.Add("http://0.0.0.0:5000");
+
 app.UseCors("AllowAll");
+
+// Serve static files from client dist folder
+app.UseStaticFiles();
+app.UseDefaultFiles();
+
 app.UseAuthorization();
+
 app.MapControllers();
 
-// Serve static files for production
-if (!app.Environment.IsDevelopment())
-{
-    app.UseStaticFiles();
-    app.MapFallbackToFile("index.html");
-}
+// Fallback to serve index.html for client-side routing
+app.MapFallbackToFile("index.html");
 
 // Seed data
 using (var scope = app.Services.CreateScope())
