@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "web", "postgresql-16", "dotnet-8.0"]
+modules = ["nodejs-20", "web", "postgresql-16"]
 run = "npm run dev"
 hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
@@ -15,7 +15,7 @@ localPort = 5000
 externalPort = 80
 
 [workflows]
-runButton = "Start ASP.NET Application"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
@@ -34,12 +34,3 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
-
-[[workflows.workflow]]
-name = "Start ASP.NET Application"
-author = 45036255
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "dotnet run --urls=http://0.0.0.0:5000"

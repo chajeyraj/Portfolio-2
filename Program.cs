@@ -43,10 +43,7 @@ app.UseCors("AllowAll");
 
 // Serve static files from client dist folder
 app.UseStaticFiles();
-app.UseDefaultFiles(new DefaultFilesOptions
-{
-    DefaultFileNames = new List<string> { "index.html" }
-});
+app.UseDefaultFiles();
 
 app.UseAuthorization();
 
