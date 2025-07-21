@@ -21,6 +21,8 @@ Preferred communication style: Simple, everyday language.
 - **Public Review Collection**: Added "Leave a Review" button in Client Testimonials section with form fields for Name, Facebook ID, Comment, and Rating
 - **Client Testimonials Horizontal Scrolling**: Converted testimonials to horizontal scrolling layout with scroll indicators
 - **Review Form Validation**: Implemented proper form validation and error handling for public review submissions
+- **Direct File Upload**: Added ability to upload images/GIFs directly in admin dashboard instead of just URLs, with 10MB limit and support for JPEG, PNG, GIF, WebP formats
+- **File Upload API**: Implemented multer-based file upload endpoint with proper validation and static file serving
 
 ### July 14, 2025 - Enhanced About Section & Footer
 - **About Section Redesign**: Complete layout overhaul with centered card design, improved visual hierarchy, and better content organization

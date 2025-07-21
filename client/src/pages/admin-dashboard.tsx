@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Trash2, Edit, Plus, Loader2 } from 'lucide-react';
+import { Trash2, Edit, Plus, Loader2, Upload, X, Image } from 'lucide-react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import type { Project } from '@shared/schema';
@@ -36,6 +36,10 @@ export default function AdminDashboard() {
     featured: 0,
     category: 'frontend'
   });
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadPreview, setUploadPreview] = useState<string>('');
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   // Fetch projects using React Query
@@ -174,6 +178,88 @@ export default function AdminDashboard() {
     deleteProjectMutation.mutate(id);
   };
 
+  // File upload handlers
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 10 * 1024 * 1024) {
+        toast({
+          title: 'Error',
+          description: 'File size must be less than 10MB',
+          variant: 'destructive'
+        });
+        return;
+      }
+
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        toast({
+          title: 'Error',
+          description: 'Only JPEG, PNG, GIF, and WebP files are allowed',
+          variant: 'destructive'
+        });
+        return;
+      }
+
+      setUploadedFile(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUploadPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleFileUpload = async () => {
+    if (!uploadedFile) return;
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', uploadedFile);
+
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const result = await response.json();
+      setNewProject(prev => ({ ...prev, image: result.url }));
+      
+      toast({
+        title: 'Success',
+        description: 'File uploaded successfully!',
+      });
+
+      // Clear upload state
+      setUploadedFile(null);
+      setUploadPreview('');
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to upload file. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const clearFileUpload = () => {
+    setUploadedFile(null);
+    setUploadPreview('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="border-b bg-white dark:bg-gray-800">
@@ -288,23 +374,118 @@ export default function AdminDashboard() {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="image">Image URL</Label>
-                    <Input
-                      id="image"
-                      value={newProject.image}
-                      onChange={(e) => setNewProject(prev => ({ ...prev, image: e.target.value }))}
-                    />
+                {/* Image Upload Section */}
+                <div>
+                  <Label>Project Image/GIF</Label>
+                  <div className="mt-2 space-y-4">
+                    {/* File Upload */}
+                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6">
+                      <div className="text-center">
+                        <Image className="mx-auto h-12 w-12 text-gray-400" />
+                        <div className="mt-4">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="mb-2"
+                          >
+                            <Upload className="w-4 h-4 mr-2" />
+                            Upload Image/GIF
+                          </Button>
+                          <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileSelect}
+                            className="hidden"
+                          />
+                          <p className="text-xs text-gray-500 mt-2">
+                            Support: JPEG, PNG, GIF, WebP • Max 10MB
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Upload Preview */}
+                    {uploadPreview && (
+                      <div className="border rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium">Preview:</span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={clearFileUpload}
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                        <img
+                          src={uploadPreview}
+                          alt="Preview"
+                          className="w-32 h-32 object-cover rounded-md"
+                        />
+                        <div className="flex justify-end mt-3">
+                          <Button
+                            type="button"
+                            onClick={handleFileUpload}
+                            disabled={isUploading}
+                            size="sm"
+                          >
+                            {isUploading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                            {isUploading ? 'Uploading...' : 'Use This Image'}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* OR divider */}
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+                      </div>
+                      <div className="relative flex justify-center text-sm">
+                        <span className="px-2 bg-white dark:bg-gray-900 text-gray-500">OR</span>
+                      </div>
+                    </div>
+
+                    {/* URL Input */}
+                    <div>
+                      <Label htmlFor="image-url">Image URL</Label>
+                      <Input
+                        id="image-url"
+                        value={newProject.image}
+                        onChange={(e) => setNewProject(prev => ({ ...prev, image: e.target.value }))}
+                        placeholder="https://example.com/image.jpg"
+                        className="mt-1"
+                      />
+                    </div>
+
+                    {/* Current Image Preview */}
+                    {newProject.image && (
+                      <div className="border rounded-lg p-4">
+                        <span className="text-sm font-medium">Current Image:</span>
+                        <img
+                          src={newProject.image}
+                          alt="Current project image"
+                          className="w-32 h-32 object-cover rounded-md mt-2"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <Label htmlFor="technologies">Technologies (comma separated)</Label>
-                    <Input
-                      id="technologies"
-                      value={newProject.technologies.join(', ')}
-                      onChange={(e) => handleTechnologiesChange(e.target.value, true)}
-                    />
-                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="technologies">Technologies (comma separated)</Label>
+                  <Input
+                    id="technologies"
+                    value={newProject.technologies.join(', ')}
+                    onChange={(e) => handleTechnologiesChange(e.target.value, true)}
+                    placeholder="React, TypeScript, Tailwind CSS"
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
