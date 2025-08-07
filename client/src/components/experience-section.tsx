@@ -6,7 +6,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Briefcase, User, Star, Plus, MessageSquare, StarIcon, Facebook } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "../hooks/use-toast";
 import type { Experience, Testimonial } from "../types";
 import { experiences, testimonials } from "../data/staticData";
 

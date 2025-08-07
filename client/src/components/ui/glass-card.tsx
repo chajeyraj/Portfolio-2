@@ -1,7 +1,7 @@
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { cn } from "../../lib/utils";
+import { motion, HTMLMotionProps } from "framer-motion";
 
-interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface GlassCardProps extends Omit<HTMLMotionProps<"div">, "initial" | "animate" | "transition"> {
   children: React.ReactNode;
   variant?: "default" | "strong";
   hover?: boolean;
