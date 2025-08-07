@@ -2,34 +2,26 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GlassCard } from "./ui/glass-card";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
-import { useToast } from "../hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Copy, Check } from "lucide-react";
-import { z } from "zod";
-
-// Frontend-only contact form schema
-const contactFormSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  email: z.string().email("Valid email is required"),
-  projectType: z.string().min(1, "Project type is required"),
-  budgetRange: z.string().min(1, "Budget range is required"),
-  message: z.string().min(1, "Message is required"),
-});
-
-type ContactForm = z.infer<typeof contactFormSchema>;
+import { insertContactSchema } from "@shared/schema";
+import { apiRequest } from "@/lib/queryClient";
+import type { InsertContact } from "@shared/schema";
 
 export function ContactSection() {
   const [emailCopied, setEmailCopied] = useState(false);
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  const form = useForm<ContactForm>({
-    resolver: zodResolver(contactFormSchema),
+  const form = useForm<InsertContact>({
+    resolver: zodResolver(insertContactSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -40,13 +32,30 @@ export function ContactSection() {
     },
   });
 
-  const onSubmit = (data: ContactForm) => {
-    // Frontend-only demo - just show success message
-    toast({
-      title: "Message sent successfully!",
-      description: "Thank you for your message! (Demo mode - no actual email sent)",
-    });
-    form.reset();
+  const contactMutation = useMutation({
+    mutationFn: async (data: InsertContact) => {
+      const response = await apiRequest("POST", "/api/contact", data);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Message sent successfully!",
+        description: "Thank you for your message. I'll get back to you soon.",
+      });
+      form.reset();
+      queryClient.invalidateQueries({ queryKey: ["/api/contacts"] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Failed to send message",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const onSubmit = (data: InsertContact) => {
+    contactMutation.mutate(data);
   };
 
   const copyEmail = async () => {
@@ -236,9 +245,10 @@ export function ContactSection() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     type="submit"
+                    disabled={contactMutation.isPending}
                     className="flex-1 gradient-bg text-white hover:shadow-xl transition-all duration-300"
                   >
-                    Send Message
+                    {contactMutation.isPending ? "Sending..." : "Send Message"}
                   </Button>
                   
                   <Button

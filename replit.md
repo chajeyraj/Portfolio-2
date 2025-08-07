@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a modern, responsive portfolio website built with React and TypeScript. The application features a frontend-only architecture with a React SPA using shadcn/ui components, static data, and no backend dependencies.
+This is a modern, responsive portfolio website built with React, TypeScript, and Express.js. The application features a full-stack architecture with a React frontend using shadcn/ui components and a Node.js backend with PostgreSQL database integration via Drizzle ORM.
 
 ## User Preferences
 
@@ -10,24 +10,19 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### August 7, 2025 - Complete Frontend-Only Conversion
-- **All Backend Files Removed**: Deleted all .NET Core backend files (Controllers, Models, Services, .cs, .csproj)
-- **Express.js Server Removed**: Removed Node.js/Express backend server directory
-- **Static Data Implementation**: Converted all dynamic content to use static data files instead of API calls
-- **Pure React SPA**: Now runs as single-page application using only Vite development server
-- **Simplified Dependencies**: Eliminated all backend frameworks and database dependencies
-- **Static Project Gallery**: Projects display from hardcoded data with 4 categorized sections
-- **Static Testimonials**: Client testimonials show from predefined data with horizontal scrolling
-- **Demo Contact Form**: Contact form shows success messages without actual processing
-- **Development Script**: Created dev-frontend.sh for easy frontend-only development
-
-### July 21, 2025 - Previous Backend Features (Now Removed)
+### July 21, 2025 - Project Management & Horizontal Scrolling Layout
+- **Fixed Project Management Issue**: Resolved bug where new projects weren't appearing in the projects list after creation
+- **Added Complete API Endpoints**: Implemented missing POST, PUT, DELETE routes for projects with proper validation
+- **React Query Integration**: Converted admin dashboard to use React Query with proper cache invalidation for real-time updates
 - **Horizontal Scrolling Layout**: Updated Recent Projects section to display all items in horizontal scrolling format
-- **Enhanced Category Headers**: Improved visual design of the 4 category headings with gradient icons and decorative lines  
+- **Enhanced Category Headers**: Improved visual design of the 4 category headings with gradient icons and decorative lines
 - **Custom Scrollbar Styling**: Added smooth custom scrollbars for better horizontal scrolling experience
 - **Mobile-Optimized Scrolling**: Enhanced touch scrolling behavior for mobile devices
 - **Public Review Collection**: Added "Leave a Review" button in Client Testimonials section with form fields for Name, Facebook ID, Comment, and Rating
 - **Client Testimonials Horizontal Scrolling**: Converted testimonials to horizontal scrolling layout with scroll indicators
+- **Review Form Validation**: Implemented proper form validation and error handling for public review submissions
+- **Direct File Upload**: Added ability to upload images/GIFs directly in admin dashboard instead of just URLs, with 10MB limit and support for JPEG, PNG, GIF, WebP formats
+- **File Upload API**: Implemented multer-based file upload endpoint with proper validation and static file serving
 
 ### July 14, 2025 - Enhanced About Section & Footer
 - **About Section Redesign**: Complete layout overhaul with centered card design, improved visual hierarchy, and better content organization
@@ -48,24 +43,30 @@ Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-### Frontend-Only Architecture
+### Frontend Architecture
 - **Framework**: React 18 with TypeScript
 - **UI Library**: shadcn/ui components built on Radix UI primitives
 - **Styling**: Tailwind CSS with CSS variables for theming
-- **Data**: Static data files instead of API calls
-- **Routing**: Wouter for client-side routing (single page application)
+- **State Management**: TanStack React Query for server state
+- **Routing**: Wouter for client-side routing
 - **Animations**: Framer Motion for smooth transitions
 - **Build Tool**: Vite for development and production builds
-- **Deployment**: Static site deployment ready
+
+### Backend Architecture
+- **Runtime**: Node.js with Express.js framework
+- **Database**: PostgreSQL with Drizzle ORM
+- **Database Provider**: Neon Database (serverless PostgreSQL)
+- **API Style**: RESTful JSON APIs
+- **Development**: Hot module replacement with Vite integration
 
 ## Key Components
 
-### Static Data Structure
-The application uses four main data types stored in static files:
-- **Projects**: Portfolio projects with title, description, technologies, and links (6 sample projects across 4 categories)
-- **Experiences**: Work experience entries with company details and tech stack (2 sample experiences)
-- **Contacts**: Contact form now shows demo messages only (no data storage)
-- **Testimonials**: Client testimonials with ratings and content (4 sample testimonials)
+### Database Schema
+The application uses four main entities:
+- **Projects**: Portfolio projects with title, description, technologies, and links
+- **Experiences**: Work experience entries with company details and tech stack
+- **Contacts**: Contact form submissions with client information
+- **Testimonials**: Client testimonials with ratings and content
 
 ### Frontend Components
 - **Navigation**: Responsive navigation with theme switching
@@ -76,18 +77,19 @@ The application uses four main data types stored in static files:
 - **Contact Section**: Contact form with validation
 - **Theme Provider**: Dark/light mode toggle functionality
 
-### Static Data Management
-- **Local Data Files**: TypeScript data files in client/src/data/ directory
-- **Type Definitions**: Custom TypeScript interfaces in client/src/types/
-- **No Database**: All content hardcoded in application
-- **No API Layer**: Direct import and usage of static data
+### Backend Services
+- **Storage Layer**: Abstracted storage interface with in-memory implementation
+- **API Routes**: RESTful endpoints for all CRUD operations
+- **Middleware**: Request logging and error handling
+- **Development Server**: Vite integration for hot reloading
 
 ## Data Flow
 
-1. **Static Imports**: Frontend components directly import data from local files
-2. **Type Safety**: TypeScript interfaces ensure data structure consistency
-3. **No Network Calls**: All content loads instantly from local data
-4. **Demo Interactions**: Forms show success messages without actual processing
+1. **Client Requests**: Frontend makes API calls using TanStack React Query
+2. **API Processing**: Express.js routes handle requests and validate data
+3. **Database Operations**: Drizzle ORM executes PostgreSQL queries
+4. **Response Handling**: JSON responses sent back to client
+5. **State Updates**: React Query manages cache invalidation and updates
 
 ## External Dependencies
 
@@ -113,19 +115,19 @@ The application uses four main data types stored in static files:
 ## Deployment Strategy
 
 ### Development Environment
-- **Frontend Only**: `./dev-frontend.sh` or `cd client && npx vite --host 0.0.0.0 --port 5000`
-- **Hot Reloading**: Automatic refresh on file changes
-- **Static Assets**: All assets served through Vite development server
-- **No Backend**: Pure frontend React application
+- **Command**: `npm run dev` - Runs development server with hot reloading
+- **Database**: Uses Drizzle push for schema synchronization
+- **Assets**: Served through Vite development server
 
 ### Production Build
-- **Frontend**: Vite builds optimized static React application
-- **Static Site**: Ready for deployment to any static hosting service
-- **No Backend**: No server-side components or dependencies
+- **Frontend**: Vite builds optimized React application
+- **Backend**: esbuild bundles Node.js server with ESM format
+- **Database**: Migrations handled through Drizzle Kit
+- **Static Assets**: Built to `dist/public` directory
 
 ### Environment Configuration
-- **No Database**: No environment variables required
-- **Static Deployment**: Works with Netlify, Vercel, GitHub Pages, etc.
-- **REPL_ID**: Replit-specific development features (optional)
+- **DATABASE_URL**: Required PostgreSQL connection string
+- **NODE_ENV**: Environment detection for conditional features
+- **REPL_ID**: Replit-specific development features
 
 The application follows a modern full-stack pattern with clear separation of concerns, type safety throughout, and responsive design principles.

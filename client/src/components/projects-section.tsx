@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 import { GlassCard } from "./ui/glass-card";
-import { ExternalLink, Github, Palette, Code, Database, Zap } from "lucide-react";
-import type { Project } from "../types";
-import { projects } from "../data/staticData";
+import { ExternalLink, Github, Loader2, Palette, Code, Database, Zap } from "lucide-react";
+import type { Project } from "@shared/schema";
 
 export function ProjectsSection() {
-  // Using static data instead of API calls
+  const { data: projects, isLoading, error } = useQuery<Project[]>({
+    queryKey: ["/api/projects"],
+  });
 
   // Category configuration
   const categories = [
@@ -44,12 +46,41 @@ export function ProjectsSection() {
   ];
 
   // Group projects by category
-  const projectsByCategory = projects.reduce((acc, project) => {
+  const projectsByCategory = projects?.reduce((acc, project) => {
     const category = project.category || "full-stack";
     if (!acc[category]) acc[category] = [];
     acc[category].push(project);
     return acc;
-  }, {} as Record<string, Project[]>);
+  }, {} as Record<string, Project[]>) || {};
+
+  if (isLoading) {
+    return (
+      <section id="projects" className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-center items-center min-h-[400px]">
+            <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="projects" className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+              Recent <span className="gradient-text">Projects</span>
+            </h2>
+            <p className="text-red-600 dark:text-red-400">
+              Failed to load projects. Please try again later.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="projects" className="py-20 px-6">
