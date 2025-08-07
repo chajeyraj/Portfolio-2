@@ -15,7 +15,7 @@ localPort = 5000
 externalPort = 80
 
 [workflows]
-runButton = "Run Frontend"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Project"
@@ -34,15 +34,6 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
-
-[[workflows.workflow]]
-name = "Run Frontend"
-author = 43008320
-mode = "sequential"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm run dev"
 
 [agent]
 integrations = ["javascript_mem_db==1.0.0"]
