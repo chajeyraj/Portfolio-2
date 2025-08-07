@@ -1,8 +1,4 @@
 import { 
-  projects, 
-  experiences, 
-  contacts, 
-  testimonials,
   type Project, 
   type Experience, 
   type Contact, 

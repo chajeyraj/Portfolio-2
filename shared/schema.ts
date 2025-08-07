@@ -1,79 +1,95 @@
-import { pgTable, text, serial, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+
 import { z } from "zod";
 
-export const projects = pgTable("projects", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description").notNull(),
-  image: text("image").notNull(),
-  technologies: jsonb("technologies").notNull(),
-  githubUrl: text("github_url"),
-  liveUrl: text("live_url"),
-  featured: integer("featured").default(0),
-  category: text("category").notNull().default("full-stack"),
-  createdAt: timestamp("created_at").defaultNow(),
+// Local storage types - no database schema needed
+export interface Project {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  githubUrl: string | null;
+  liveUrl: string | null;
+  featured: number;
+  category: string;
+  createdAt: Date;
+}
+
+export interface Experience {
+  id: number;
+  title: string;
+  company: string;
+  description: string;
+  technologies: string[];
+  startDate: string;
+  endDate: string | null;
+  current: number;
+  createdAt: Date;
+}
+
+export interface Contact {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  projectType: string | null;
+  budgetRange: string | null;
+  message: string;
+  createdAt: Date;
+}
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  title: string;
+  company: string;
+  content: string;
+  avatar: string | null;
+  facebookId: string | null;
+  rating: number;
+  createdAt: Date;
+}
+
+// Zod schemas for validation
+export const insertProjectSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  image: z.string(),
+  technologies: z.array(z.string()),
+  githubUrl: z.string().optional(),
+  liveUrl: z.string().optional(),
+  featured: z.number().optional(),
+  category: z.string().optional(),
 });
 
-export const experiences = pgTable("experiences", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  company: text("company").notNull(),
-  description: text("description").notNull(),
-  technologies: jsonb("technologies").notNull(),
-  startDate: text("start_date").notNull(),
-  endDate: text("end_date"),
-  current: integer("current").default(0),
-  createdAt: timestamp("created_at").defaultNow(),
+export const insertExperienceSchema = z.object({
+  title: z.string(),
+  company: z.string(),
+  description: z.string(),
+  technologies: z.array(z.string()),
+  startDate: z.string(),
+  endDate: z.string().optional(),
+  current: z.number().optional(),
 });
 
-export const contacts = pgTable("contacts", {
-  id: serial("id").primaryKey(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
-  email: text("email").notNull(),
-  projectType: text("project_type"),
-  budgetRange: text("budget_range"),
-  message: text("message").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
+export const insertContactSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string().email(),
+  projectType: z.string().optional(),
+  budgetRange: z.string().optional(),
+  message: z.string(),
 });
 
-export const testimonials = pgTable("testimonials", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  title: text("title").notNull(),
-  company: text("company").notNull(),
-  content: text("content").notNull(),
-  avatar: text("avatar"),
-  facebookId: text("facebook_id"),
-  rating: integer("rating").default(5),
-  createdAt: timestamp("created_at").defaultNow(),
+export const insertTestimonialSchema = z.object({
+  name: z.string(),
+  title: z.string(),
+  company: z.string(),
+  content: z.string(),
+  avatar: z.string().optional(),
+  facebookId: z.string().optional(),
+  rating: z.number().optional(),
 });
-
-export const insertProjectSchema = createInsertSchema(projects).omit({
-  id: true,
-  createdAt: true,
-});
-
-export const insertExperienceSchema = createInsertSchema(experiences).omit({
-  id: true,
-  createdAt: true,
-});
-
-export const insertContactSchema = createInsertSchema(contacts).omit({
-  id: true,
-  createdAt: true,
-});
-
-export const insertTestimonialSchema = createInsertSchema(testimonials).omit({
-  id: true,
-  createdAt: true,
-});
-
-export type Project = typeof projects.$inferSelect;
-export type Experience = typeof experiences.$inferSelect;
-export type Contact = typeof contacts.$inferSelect;
-export type Testimonial = typeof testimonials.$inferSelect;
 
 export type InsertProject = z.infer<typeof insertProjectSchema>;
 export type InsertExperience = z.infer<typeof insertExperienceSchema>;
