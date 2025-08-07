@@ -1,0 +1,851 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Johnson - Full Stack Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#8B5CF6',
+                        accent: '#F59E0B',
+                        dark: {
+                            bg: '#0F0F23',
+                            surface: '#1A1A2E',
+                            text: '#F9FAFB'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'slide-in': 'slideIn 0.8s ease-out',
+                    },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+            to { box-shadow: 0 0 30px rgba(99, 102, 241, 0.8), 0 0 40px rgba(139, 92, 246, 0.3); }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(-45deg, #6366F1, #8B5CF6, #F59E0B, #EF4444);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(99, 102, 241, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { width: 6px; height: 6px; top: 40%; left: 60%; animation-delay: 2s; }
+        .particle:nth-child(3) { width: 3px; height: 3px; top: 60%; left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { width: 5px; height: 5px; top: 80%; left: 80%; animation-delay: 1s; }
+        .particle:nth-child(5) { width: 4px; height: 4px; top: 30%; left: 90%; animation-delay: 3s; }
+        
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .section-fade {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+        
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">
+    <!-- @COMPONENT: Navigation [fixed header with glassmorphism] -->
+    <nav class="fixed top-0 w-full z-50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-2xl font-bold text-gradient">AJ</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-primary transition-colors duration-300">Home</a>
+                        <a href="#about" class="hover:text-primary transition-colors duration-300">About</a>
+                        <a href="#projects" class="hover:text-primary transition-colors duration-300">Projects</a>
+                        <a href="#contact" class="hover:text-primary transition-colors duration-300">Contact</a>
+                    </div>
+                </div>
+                
+                <!-- Dark Mode Toggle -->
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-lg glass hover:bg-white/20 transition-all duration-300">
+                        <i class="fas fa-moon dark:hidden text-lg"></i>
+                        <i class="fas fa-sun hidden dark:block text-lg"></i>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg glass">
+                        <i class="fas fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="md:hidden hidden glass border-t border-white/20">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block px-3 py-2 hover:text-primary transition-colors duration-300">Home</a>
+                <a href="#about" class="block px-3 py-2 hover:text-primary transition-colors duration-300">About</a>
+                <a href="#projects" class="block px-3 py-2 hover:text-primary transition-colors duration-300">Projects</a>
+                <a href="#contact" class="block px-3 py-2 hover:text-primary transition-colors duration-300">Contact</a>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- @COMPONENT: Hero Section [full-screen with animated background] -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <!-- Animated Background -->
+        <div class="absolute inset-0 gradient-bg opacity-20"></div>
+        
+        <!-- Floating Particles -->
+        <div class="absolute inset-0">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto animate-slide-up">
+            <h1 class="text-5xl md:text-7xl font-black mb-6">
+                <span class="text-gradient">Alex Johnson</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-600 dark:text-gray-300 font-light">
+                Full Stack Developer & Creative Problem Solver
+            </p>
+            <p class="text-lg mb-12 text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+                I craft exceptional digital experiences with modern technologies. 
+                Specializing in React, ASP.NET Core, and cloud solutions.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#projects" class="group glass px-8 py-4 rounded-full hover:animate-glow transition-all duration-300 hover:scale-105">
+                    <span class="flex items-center gap-2">
+                        <i class="fas fa-rocket"></i>
+                        View My Work
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
+                    </span>
+                </a>
+                <a href="#contact" class="px-8 py-4 border border-primary/30 rounded-full hover:bg-primary/10 transition-all duration-300 hover:scale-105">
+                    Let's Connect
+                </a>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="flex justify-center space-x-6 mt-12">
+                <a href="#" class="text-2xl hover:text-primary transition-colors duration-300 hover:scale-110 transform">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#" class="text-2xl hover:text-primary transition-colors duration-300 hover:scale-110 transform">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="text-2xl hover:text-primary transition-colors duration-300 hover:scale-110 transform">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-2xl hover:text-primary transition-colors duration-300 hover:scale-110 transform">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-2xl text-primary"></i>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Hero Section -->
+
+    <!-- @COMPONENT: About Section [glassmorphism cards with skills] -->
+    <section id="about" class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="section-fade">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                        About <span class="text-gradient">Me</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                        Passionate developer with 5+ years of experience creating scalable web applications 
+                        and innovative solutions for businesses worldwide.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+                    <div class="animate-slide-in">
+                        <!-- Profile image placeholder -->
+                        <!-- Professional headshot of a confident software developer in modern office setting -->
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=800" 
+                             alt="Alex Johnson - Full Stack Developer" 
+                             class="rounded-2xl shadow-2xl w-full max-w-md mx-auto object-cover aspect-square" />
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="glass p-6 rounded-2xl">
+                            <h3 class="text-2xl font-bold mb-4 flex items-center gap-3">
+                                <i class="fas fa-code text-primary"></i>
+                                My Journey
+                            </h3>
+                            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                                Started as a curious computer science student, evolved into a full-stack developer 
+                                passionate about creating meaningful digital experiences. I love turning complex 
+                                problems into simple, beautiful solutions.
+                            </p>
+                        </div>
+                        
+                        <div class="glass p-6 rounded-2xl">
+                            <h3 class="text-2xl font-bold mb-4 flex items-center gap-3">
+                                <i class="fas fa-heart text-red-500"></i>
+                                What I Love
+                            </h3>
+                            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                                Building applications that make a difference, learning new technologies, 
+                                mentoring junior developers, and contributing to open-source projects. 
+                                When not coding, you'll find me hiking or experimenting with new recipes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skills Grid -->
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="glass p-8 rounded-2xl project-card text-center">
+                        <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-laptop-code text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Frontend</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>React/Next.js</span>
+                                <span class="text-primary font-semibold">Expert</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>TypeScript</span>
+                                <span class="text-primary font-semibold">Advanced</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>TailwindCSS</span>
+                                <span class="text-primary font-semibold">Expert</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Vue.js</span>
+                                <span class="text-secondary font-semibold">Intermediate</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass p-8 rounded-2xl project-card text-center">
+                        <div class="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-server text-2xl text-secondary"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Backend</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>ASP.NET Core</span>
+                                <span class="text-primary font-semibold">Expert</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Node.js</span>
+                                <span class="text-primary font-semibold">Advanced</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>SQL Server</span>
+                                <span class="text-primary font-semibold">Advanced</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>MongoDB</span>
+                                <span class="text-secondary font-semibold">Intermediate</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass p-8 rounded-2xl project-card text-center">
+                        <div class="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-cloud text-2xl text-accent"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Cloud & Tools</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>Azure</span>
+                                <span class="text-primary font-semibold">Advanced</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Docker</span>
+                                <span class="text-primary font-semibold">Advanced</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Git/GitHub</span>
+                                <span class="text-primary font-semibold">Expert</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>CI/CD</span>
+                                <span class="text-secondary font-semibold">Intermediate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: About Section -->
+
+    <!-- @COMPONENT: Projects Section [dynamic project cards from API] -->
+    <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-100/50 dark:bg-dark-surface/30">
+        <div class="max-w-7xl mx-auto">
+            <div class="section-fade">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                        Featured <span class="text-gradient">Projects</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                        A showcase of my latest work, featuring full-stack applications, 
+                        innovative solutions, and collaborative projects.
+                    </p>
+                </div>
+                
+                <!-- @MAP: projects.map(project => ( -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Project Card 1 -->
+                    <div class="glass rounded-2xl overflow-hidden project-card group">
+                        <!-- Modern e-commerce website interface with shopping cart and product displays -->
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" 
+                             alt="E-commerce Platform Project" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/20 text-primary text-xs rounded-full">React</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary text-xs rounded-full">ASP.NET</span>
+                                <span class="px-2 py-1 bg-accent/20 text-accent text-xs rounded-full">SQL Server</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2" data-bind="project.title">E-commerce Platform</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4" data-bind="project.description">
+                                Full-featured online store with payment integration, inventory management, 
+                                and admin dashboard. Built with React and ASP.NET Core.
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex space-x-3">
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fab fa-github text-lg"></i>
+                                    </a>
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fas fa-external-link-alt text-lg"></i>
+                                    </a>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400" data-bind="project.date">2024</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Card 2 -->
+                    <div class="glass rounded-2xl overflow-hidden project-card group">
+                        <!-- Modern task management app interface with kanban boards and productivity features -->
+                        <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" 
+                             alt="Task Management App Project" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/20 text-primary text-xs rounded-full">Next.js</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary text-xs rounded-full">Node.js</span>
+                                <span class="px-2 py-1 bg-accent/20 text-accent text-xs rounded-full">MongoDB</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2" data-bind="project.title">Task Management App</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4" data-bind="project.description">
+                                Collaborative project management tool with real-time updates, team chat, 
+                                and advanced analytics. Built with Next.js and Socket.io.
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex space-x-3">
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fab fa-github text-lg"></i>
+                                    </a>
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fas fa-external-link-alt text-lg"></i>
+                                    </a>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400" data-bind="project.date">2024</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Card 3 -->
+                    <div class="glass rounded-2xl overflow-hidden project-card group">
+                        <!-- Clean weather app interface showing forecasts and weather data visualizations -->
+                        <img src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" 
+                             alt="Weather Analytics Dashboard Project" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/20 text-primary text-xs rounded-full">Vue.js</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary text-xs rounded-full">Python</span>
+                                <span class="px-2 py-1 bg-accent/20 text-accent text-xs rounded-full">Azure</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2" data-bind="project.title">Weather Analytics</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4" data-bind="project.description">
+                                Advanced weather analytics platform with machine learning predictions 
+                                and interactive data visualizations. Deployed on Azure cloud.
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex space-x-3">
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fab fa-github text-lg"></i>
+                                    </a>
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fas fa-external-link-alt text-lg"></i>
+                                    </a>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400" data-bind="project.date">2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Card 4 -->
+                    <div class="glass rounded-2xl overflow-hidden project-card group">
+                        <!-- Modern fintech mobile app interface with financial charts and transaction features -->
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" 
+                             alt="FinTech Mobile App Project" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/20 text-primary text-xs rounded-full">React Native</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary text-xs rounded-full">Express</span>
+                                <span class="px-2 py-1 bg-accent/20 text-accent text-xs rounded-full">PostgreSQL</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2" data-bind="project.title">FinTech Mobile App</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4" data-bind="project.description">
+                                Secure mobile banking application with biometric authentication, 
+                                expense tracking, and investment portfolio management.
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex space-x-3">
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fab fa-github text-lg"></i>
+                                    </a>
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fas fa-external-link-alt text-lg"></i>
+                                    </a>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400" data-bind="project.date">2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Card 5 -->
+                    <div class="glass rounded-2xl overflow-hidden project-card group">
+                        <!-- AI-powered learning platform interface with course materials and progress tracking -->
+                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" 
+                             alt="AI Learning Platform Project" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/20 text-primary text-xs rounded-full">React</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary text-xs rounded-full">Django</span>
+                                <span class="px-2 py-1 bg-accent/20 text-accent text-xs rounded-full">TensorFlow</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2" data-bind="project.title">AI Learning Platform</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4" data-bind="project.description">
+                                Intelligent learning platform with personalized course recommendations, 
+                                progress tracking, and AI-powered content generation.
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex space-x-3">
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fab fa-github text-lg"></i>
+                                    </a>
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fas fa-external-link-alt text-lg"></i>
+                                    </a>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400" data-bind="project.date">2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Card 6 -->
+                    <div class="glass rounded-2xl overflow-hidden project-card group">
+                        <!-- Modern social media platform interface with posts, stories, and messaging features -->
+                        <img src="https://images.unsplash.com/photo-1611262588024-d12430b98920?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" 
+                             alt="Social Media Platform Project" 
+                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" />
+                        <div class="p-6">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="px-2 py-1 bg-primary/20 text-primary text-xs rounded-full">Next.js</span>
+                                <span class="px-2 py-1 bg-secondary/20 text-secondary text-xs rounded-full">GraphQL</span>
+                                <span class="px-2 py-1 bg-accent/20 text-accent text-xs rounded-full">Redis</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2" data-bind="project.title">Social Platform</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4" data-bind="project.description">
+                                Modern social media platform with real-time messaging, story features, 
+                                and advanced content moderation using GraphQL and microservices.
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <div class="flex space-x-3">
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fab fa-github text-lg"></i>
+                                    </a>
+                                    <a href="#" class="text-primary hover:text-secondary transition-colors duration-300">
+                                        <i class="fas fa-external-link-alt text-lg"></i>
+                                    </a>
+                                </div>
+                                <span class="text-sm text-gray-500 dark:text-gray-400" data-bind="project.date">2022</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+                
+                <div class="text-center">
+                    <a href="#" class="inline-flex items-center gap-2 glass px-6 py-3 rounded-full hover:bg-white/20 transition-all duration-300">
+                        <i class="fab fa-github"></i>
+                        View All Projects on GitHub
+                        <i class="fas fa-external-link-alt text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Projects Section -->
+
+    <!-- @COMPONENT: Contact Section [glassmorphism form with backend integration] -->
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="section-fade">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">
+                        Let's <span class="text-gradient">Connect</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                        Have a project in mind? Let's discuss how we can work together 
+                        to bring your ideas to life.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Contact Info -->
+                    <div class="space-y-8">
+                        <div class="glass p-6 rounded-2xl">
+                            <h3 class="text-2xl font-bold mb-6">Get in Touch</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-envelope text-primary"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold">Email</p>
+                                        <p class="text-gray-600 dark:text-gray-300">alex.johnson@email.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-phone text-secondary"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold">Phone</p>
+                                        <p class="text-gray-600 dark:text-gray-300">+1 (555) 123-4567</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-map-marker-alt text-accent"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold">Location</p>
+                                        <p class="text-gray-600 dark:text-gray-300">San Francisco, CA</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Availability Status -->
+                        <div class="glass p-6 rounded-2xl">
+                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                                <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                Available for Freelance
+                            </h3>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                I'm currently available for new projects and collaborations. 
+                                Let's build something amazing together!
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form -->
+                    <div class="glass p-8 rounded-2xl">
+                        <form id="contact-form" class="space-y-6" data-implementation="Connect to ASP.NET Core Web API endpoint">
+                            <div>
+                                <label for="name" class="block text-sm font-medium mb-2">Your Name</label>
+                                <input type="text" id="name" name="name" required
+                                       class="w-full px-4 py-3 glass rounded-lg border-0 focus:ring-2 focus:ring-primary/50 transition-all duration-300 bg-white/10 dark:bg-black/10"
+                                       placeholder="John Doe" />
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium mb-2">Email Address</label>
+                                <input type="email" id="email" name="email" required
+                                       class="w-full px-4 py-3 glass rounded-lg border-0 focus:ring-2 focus:ring-primary/50 transition-all duration-300 bg-white/10 dark:bg-black/10"
+                                       placeholder="john@example.com" />
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-sm font-medium mb-2">Subject</label>
+                                <input type="text" id="subject" name="subject" required
+                                       class="w-full px-4 py-3 glass rounded-lg border-0 focus:ring-2 focus:ring-primary/50 transition-all duration-300 bg-white/10 dark:bg-black/10"
+                                       placeholder="Project Collaboration" />
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                                <textarea id="message" name="message" rows="6" required
+                                          class="w-full px-4 py-3 glass rounded-lg border-0 focus:ring-2 focus:ring-primary/50 transition-all duration-300 bg-white/10 dark:bg-black/10 resize-none"
+                                          placeholder="Tell me about your project..."></textarea>
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300 font-semibold"
+                                    data-event="click:handleFormSubmit">
+                                <span class="flex items-center justify-center gap-2">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Send Message
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Contact Section -->
+
+    <!-- @COMPONENT: Footer [minimal footer with social links] -->
+    <footer class="bg-gray-100 dark:bg-dark-surface py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <span class="text-2xl font-bold text-gradient">Alex Johnson</span>
+                    <p class="text-gray-600 dark:text-gray-300 mt-2">Full Stack Developer</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors duration-300">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors duration-300">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors duration-300">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors duration-300">
+                        <i class="fas fa-envelope text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-600 dark:text-gray-300">
+                    © 2024 Alex Johnson. All rights reserved. Built with React & ASP.NET Core.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management in React
+        (function() {
+            // Dark mode toggle functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const html = document.documentElement;
+            
+            // Check for saved theme preference or default to light mode
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            html.classList.toggle('dark', savedTheme === 'dark');
+            
+            themeToggle.addEventListener('click', () => {
+                const isDark = html.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            });
+            
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        // Close mobile menu if open
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Intersection Observer for fade-in animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.section-fade').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Contact form submission (placeholder for API integration)
+            const contactForm = document.getElementById('contact-form');
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // TODO: Replace with actual API call to ASP.NET Core backend
+                const formData = new FormData(this);
+                const data = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    subject: formData.get('subject'),
+                    message: formData.get('message')
+                };
+                
+                // Simulate API call
+                console.log('Form data to send to API:', data);
+                
+                // Show success message (replace with actual API response handling)
+                alert('Message sent successfully! I\'ll get back to you soon.');
+                this.reset();
+                
+                // TODO: Implement actual fetch call:
+                // try {
+                //     const response = await fetch('/api/contact', {
+                //         method: 'POST',
+                //         headers: {
+                //             'Content-Type': 'application/json',
+                //         },
+                //         body: JSON.stringify(data)
+                //     });
+                //     
+                //     if (response.ok) {
+                //         // Handle success
+                //     } else {
+                //         // Handle error
+                //     }
+                // } catch (error) {
+                //     console.error('Error submitting form:', error);
+                // }
+            });
+            
+            // Add dynamic project loading (placeholder for API integration)
+            // TODO: Replace with actual API call to load projects
+            const loadProjects = async () => {
+                try {
+                    // const response = await fetch('/api/projects');
+                    // const projects = await response.json();
+                    // renderProjects(projects);
+                    console.log('Projects would be loaded from API here');
+                } catch (error) {
+                    console.error('Error loading projects:', error);
+                }
+            };
+            
+            // Initialize project loading
+            loadProjects();
+        })();
+    </script>
+</body>
+</html>

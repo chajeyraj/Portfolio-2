@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chanaka Prasanna - AI/ML Developer & Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'gradient': 'gradient 8s ease infinite',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'slide-down': 'slideDown 0.6s ease-out',
+                        'fade-in': 'fadeIn 0.8s ease-out',
+                        'scale-in': 'scaleIn 0.5s ease-out',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        gradient: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(100px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-100px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    },
+                    colors: {
+                        'glass-light': 'rgba(255, 255, 255, 0.1)',
+                        'glass-dark': 'rgba(0, 0, 0, 0.1)',
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="font-inter antialiased transition-all duration-300 overflow-x-hidden">
+    <!-- @COMPONENT: App [main application wrapper] -->
+    <div id="app" class="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+        
+        <!-- Animated Background -->
+        <!-- @COMPONENT: AnimatedBackground [gradient and particle effects] -->
+        <div class="fixed inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-cyan-500/20 animate-gradient bg-[length:400%_400%]"></div>
+            <div class="absolute inset-0 opacity-30">
+                <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-r from-indigo-500/30 to-purple-500/30 rounded-full blur-3xl animate-float"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-cyan-500/30 to-emerald-500/30 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+                <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-purple-500/30 to-pink-500/30 rounded-full blur-3xl animate-float" style="animation-delay: 4s;"></div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: AnimatedBackground -->
+
+        <!-- Navigation -->
+        <!-- @COMPONENT: Navigation [glass navigation bar with mode toggle] -->
+        <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 shadow-xl">
+                    <div class="flex items-center justify-between px-6 py-4">
+                        <!-- Logo -->
+                        <div class="flex items-center space-x-2">
+                            <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center shadow-lg">
+                                <span class="text-white font-bold text-lg">CP</span>
+                            </div>
+                            <span class="text-xl font-bold text-gray-900 dark:text-white">Chanaka</span>
+                        </div>
+
+                        <!-- Desktop Navigation -->
+                        <div class="hidden md:flex items-center space-x-8">
+                            <a href="#home" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 font-medium">Home</a>
+                            <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 font-medium">About</a>
+                            <a href="#projects" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 font-medium">Projects</a>
+                            <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 font-medium">Contact</a>
+                        </div>
+
+                        <!-- Dark Mode Toggle & Mobile Menu -->
+                        <div class="flex items-center space-x-4">
+                            <button id="darkModeToggle" class="p-2 rounded-lg bg-white/20 dark:bg-black/20 hover:bg-white/30 dark:hover:bg-black/30 transition-all duration-200">
+                                <i class="fas fa-moon dark:hidden text-gray-700"></i>
+                                <i class="fas fa-sun hidden dark:block text-yellow-400"></i>
+                            </button>
+                            <button id="mobileMenuToggle" class="md:hidden p-2 rounded-lg bg-white/20 dark:bg-black/20 hover:bg-white/30 dark:hover:bg-black/30 transition-all duration-200">
+                                <i class="fas fa-bars text-gray-700 dark:text-gray-300"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- @END_COMPONENT: Navigation -->
+
+        <!-- Mobile Menu -->
+        <!-- @COMPONENT: MobileMenu [collapsible mobile navigation] -->
+        <div id="mobileMenu" class="fixed top-20 left-6 right-6 z-40 md:hidden transform -translate-y-4 opacity-0 transition-all duration-300 pointer-events-none">
+            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 shadow-xl p-6">
+                <div class="flex flex-col space-y-4">
+                    <a href="#home" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 font-medium py-2">Home</a>
+                    <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 font-medium py-2">About</a>
+                    <a href="#projects" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 font-medium py-2">Projects</a>
+                    <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 font-medium py-2">Contact</a>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: MobileMenu -->
+
+        <!-- Main Content -->
+        <main class="relative z-10">
+            
+            <!-- Hero Section -->
+            <!-- @COMPONENT: HeroSection [main landing area with animated elements] -->
+            <section id="home" class="min-h-screen flex items-center justify-center pt-24 pb-20 px-6">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center animate-fade-in">
+                        <!-- Profile Image -->
+                        <div class="mb-8 flex justify-center">
+                            <div class="relative">
+                                <div class="w-32 h-32 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full p-1 animate-pulse-slow">
+                                    <div class="w-full h-full bg-gray-300 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-user text-4xl text-gray-600 dark:text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div class="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white dark:border-gray-900 animate-bounce-slow"></div>
+                            </div>
+                        </div>
+
+                        <!-- Main Headlines -->
+                        <div class="mb-8 animate-slide-up">
+                            <h1 class="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-4">
+                                The future is 
+                                <span class="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">digital</span>
+                            </h1>
+                            <h2 class="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                and it's happening now
+                            </h2>
+                            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-6">
+                                Bridging the Gap Between Human and Machines
+                            </p>
+                        </div>
+
+                        <!-- Introduction -->
+                        <div class="mb-8 animate-slide-up" style="animation-delay: 0.2s;">
+                            <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+                                Hi, I'm <span class="font-bold text-indigo-600 dark:text-indigo-400">Chanaka</span>, 
+                                a AI/ML Enthusiast | Blogger | Final-year Undergraduate at University of Moratuwa
+                            </p>
+                        </div>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center animate-scale-in" style="animation-delay: 0.4s;">
+                            <a href="#projects" class="group relative px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                <span class="relative z-10">Show My Work</span>
+                                <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            </a>
+                            <a href="#contact" class="group px-8 py-4 backdrop-blur-md bg-white/10 dark:bg-black/10 text-gray-900 dark:text-white rounded-2xl font-semibold border border-white/20 dark:border-gray-700/20 hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300 transform hover:scale-105">
+                                Get In Touch
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: HeroSection -->
+
+            <!-- About Section -->
+            <!-- @COMPONENT: AboutSection [personal info and skills showcase] -->
+            <section id="about" class="py-20 px-6">
+                <div class="max-w-7xl mx-auto">
+                    
+                    <!-- Section Header -->
+                    <div class="text-center mb-16 animate-fade-in">
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                            About <span class="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">Me</span>
+                        </h2>
+                        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                            Committed to effortless client collaboration and transparency
+                        </p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+                        <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up">
+                            <div class="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">15+</div>
+                            <div class="text-gray-700 dark:text-gray-300">Projects Completed</div>
+                        </div>
+                        <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s;">
+                            <div class="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">3+</div>
+                            <div class="text-gray-700 dark:text-gray-300">Years Experience</div>
+                        </div>
+                        <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s;">
+                            <div class="text-3xl font-bold text-cyan-600 dark:text-cyan-400 mb-2">100%</div>
+                            <div class="text-gray-700 dark:text-gray-300">Client Satisfaction</div>
+                        </div>
+                        <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.3s;">
+                            <div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">24/7</div>
+                            <div class="text-gray-700 dark:text-gray-300">Available</div>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack -->
+                    <div class="mb-16">
+                        <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">My Tech Stack</h3>
+                        <div class="grid grid-cols-3 md:grid-cols-6 gap-6">
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-scale-in">
+                                <i class="fab fa-react text-4xl text-cyan-500 mb-3"></i>
+                                <p class="text-gray-700 dark:text-gray-300 font-medium">React.js</p>
+                            </div>
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-scale-in" style="animation-delay: 0.1s;">
+                                <i class="fab fa-js-square text-4xl text-yellow-500 mb-3"></i>
+                                <p class="text-gray-700 dark:text-gray-300 font-medium">Next.js</p>
+                            </div>
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-scale-in" style="animation-delay: 0.2s;">
+                                <i class="fab fa-python text-4xl text-green-500 mb-3"></i>
+                                <p class="text-gray-700 dark:text-gray-300 font-medium">Python</p>
+                            </div>
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-scale-in" style="animation-delay: 0.3s;">
+                                <i class="fab fa-vuejs text-4xl text-green-600 mb-3"></i>
+                                <p class="text-gray-700 dark:text-gray-300 font-medium">Vue.js</p>
+                            </div>
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-scale-in" style="animation-delay: 0.4s;">
+                                <i class="fab fa-aws text-4xl text-orange-500 mb-3"></i>
+                                <p class="text-gray-700 dark:text-gray-300 font-medium">AWS</p>
+                            </div>
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-scale-in" style="animation-delay: 0.5s;">
+                                <i class="fas fa-database text-4xl text-blue-500 mb-3"></i>
+                                <p class="text-gray-700 dark:text-gray-300 font-medium">MongoDB</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Content -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <div class="animate-slide-up">
+                            <!-- Modern office workspace with computers and collaborative environment -->
+                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" alt="Modern office workspace" class="rounded-3xl shadow-2xl w-full h-auto" />
+                        </div>
+                        <div class="animate-slide-up" style="animation-delay: 0.2s;">
+                            <h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                                Building intelligent solutions with code
+                            </h3>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                                I constantly try to improve my skills and stay updated with the latest technologies. 
+                                Available to connect seamlessly across any time zone, I'm committed to delivering 
+                                exceptional results through effortless client collaboration and transparency.
+                            </p>
+                            <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+                                Transform. Develop. Achieve. As a motivated individual with a strong interest in 
+                                AI/ML & Software developments, I bridge the gap between human needs and machine capabilities.
+                            </p>
+                            <div class="flex flex-wrap gap-4">
+                                <span class="px-4 py-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full font-medium">AI/ML Enthusiast</span>
+                                <span class="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-700 dark:text-purple-300 rounded-full font-medium">Software Developer</span>
+                                <span class="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 dark:text-cyan-300 rounded-full font-medium">Problem Solver</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: AboutSection -->
+
+            <!-- Projects Section -->
+            <!-- @COMPONENT: ProjectsSection [portfolio showcase with glassmorphism cards] -->
+            <section id="projects" class="py-20 px-6">
+                <div class="max-w-7xl mx-auto">
+                    
+                    <!-- Section Header -->
+                    <div class="text-center mb-16 animate-fade-in">
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                            Recent <span class="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">Projects</span>
+                        </h2>
+                        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                            A small selection of recent projects showcasing AI/ML and software development
+                        </p>
+                    </div>
+
+                    <!-- Projects Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        
+                        <!-- Project 1: Personal Assistant -->
+                        <div class="group backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up" data-mock="true">
+                            <div class="mb-4">
+                                <!-- AI chatbot interface screenshot with conversation bubbles -->
+                                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="AI Personal Assistant Interface" class="w-full h-48 object-cover rounded-2xl" />
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Personal Assistant</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                Contextual Conversations Using RAG - Advanced AI assistant with natural language processing capabilities
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full text-sm">Python</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-700 dark:text-purple-300 rounded-full text-sm">RAG</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 dark:text-cyan-300 rounded-full text-sm">NLP</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a href="#" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-2 px-4 rounded-xl font-medium text-center hover:from-indigo-600 hover:to-purple-600 transition-all duration-200">
+                                    View Project
+                                </a>
+                                <a href="#" class="p-2 backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-200">
+                                    <i class="fab fa-github text-gray-700 dark:text-gray-300"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Project 2: Disease Prediction -->
+                        <div class="group backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.1s;" data-mock="true">
+                            <div class="mb-4">
+                                <!-- Agricultural disease detection system showing plant leaf analysis -->
+                                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Plant Disease Detection" class="w-full h-48 object-cover rounded-2xl" />
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Potato Disease Prediction</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                Deep Learning-based Image Classification for Identifying Potato Diseases using CNN
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-700 dark:text-green-300 rounded-full text-sm">TensorFlow</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-700 dark:text-blue-300 rounded-full text-sm">CNN</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-700 dark:text-purple-300 rounded-full text-sm">Computer Vision</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a href="#" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-2 px-4 rounded-xl font-medium text-center hover:from-green-600 hover:to-emerald-600 transition-all duration-200">
+                                    View Project
+                                </a>
+                                <a href="#" class="p-2 backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-200">
+                                    <i class="fab fa-github text-gray-700 dark:text-gray-300"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Project 3: Sentiment Analysis -->
+                        <div class="group backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.2s;" data-mock="true">
+                            <div class="mb-4">
+                                <!-- Data visualization dashboard showing sentiment analysis results -->
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="Sentiment Analysis Dashboard" class="w-full h-48 object-cover rounded-2xl" />
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Sentiment Analysis</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                Classifying movie reviews using deep learning and cloud deployment with real-time processing
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-700 dark:text-yellow-300 rounded-full text-sm">LSTM</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-700 dark:text-orange-300 rounded-full text-sm">AWS</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-red-500/20 to-pink-500/20 text-red-700 dark:text-red-300 rounded-full text-sm">Flask</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a href="#" class="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-2 px-4 rounded-xl font-medium text-center hover:from-yellow-600 hover:to-orange-600 transition-all duration-200">
+                                    View Project
+                                </a>
+                                <a href="#" class="p-2 backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-200">
+                                    <i class="fab fa-github text-gray-700 dark:text-gray-300"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Project 4: Blog Generator -->
+                        <div class="group backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.3s;" data-mock="true">
+                            <div class="mb-4">
+                                <!-- Content creation interface with AI-powered writing tools -->
+                                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="AI Blog Generator Interface" class="w-full h-48 object-cover rounded-2xl" />
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Blog Generator</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                Transforming YouTube videos into high-quality blog posts with AI agents and automation
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full text-sm">OpenAI</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-700 dark:text-purple-300 rounded-full text-sm">LangChain</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 dark:text-cyan-300 rounded-full text-sm">React</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a href="#" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-2 px-4 rounded-xl font-medium text-center hover:from-indigo-600 hover:to-purple-600 transition-all duration-200">
+                                    View Project
+                                </a>
+                                <a href="#" class="p-2 backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-200">
+                                    <i class="fab fa-github text-gray-700 dark:text-gray-300"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Project 5: SmartPOS System -->
+                        <div class="group backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.4s;" data-mock="true">
+                            <div class="mb-4">
+                                <!-- Point of sale system interface with inventory management -->
+                                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="POS System Interface" class="w-full h-48 object-cover rounded-2xl" />
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">SmartPOS System</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                Retail Management System with real-time inventory, sales processing, and analytics
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-700 dark:text-blue-300 rounded-full text-sm">React</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-700 dark:text-green-300 rounded-full text-sm">Node.js</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-700 dark:text-purple-300 rounded-full text-sm">MongoDB</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a href="#" class="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-2 px-4 rounded-xl font-medium text-center hover:from-blue-600 hover:to-indigo-600 transition-all duration-200">
+                                    View Project
+                                </a>
+                                <a href="#" class="p-2 backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-200">
+                                    <i class="fab fa-github text-gray-700 dark:text-gray-300"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Project 6: Learning Platform -->
+                        <div class="group backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 animate-slide-up" style="animation-delay: 0.5s;" data-mock="true">
+                            <div class="mb-4">
+                                <!-- E-learning platform with AI-powered features -->
+                                <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" alt="AI Learning Platform" class="w-full h-48 object-cover rounded-2xl" />
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">LearnAI Platform</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                AI-Powered Learning Platform with intelligent content processing and personalized education
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-3 py-1 bg-gradient-to-r from-teal-500/20 to-cyan-500/20 text-teal-700 dark:text-teal-300 rounded-full text-sm">React</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full text-sm">Express</span>
+                                <span class="px-3 py-1 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-700 dark:text-yellow-300 rounded-full text-sm">Python</span>
+                            </div>
+                            <div class="flex space-x-3">
+                                <a href="#" class="flex-1 bg-gradient-to-r from-teal-500 to-cyan-500 text-white py-2 px-4 rounded-xl font-medium text-center hover:from-teal-600 hover:to-cyan-600 transition-all duration-200">
+                                    View Project
+                                </a>
+                                <a href="#" class="p-2 backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-200">
+                                    <i class="fab fa-github text-gray-700 dark:text-gray-300"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Show All Projects Button -->
+                    <div class="text-center mt-12">
+                        <a href="#" class="inline-block px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                            Show All Projects
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: ProjectsSection -->
+
+            <!-- Experience Section -->
+            <!-- @COMPONENT: ExperienceSection [work history and testimonials] -->
+            <section class="py-20 px-6">
+                <div class="max-w-7xl mx-auto">
+                    
+                    <!-- Work Experience -->
+                    <div class="mb-20">
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-16 text-center">
+                            Work <span class="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">Experience</span>
+                        </h2>
+                        
+                        <div class="space-y-8">
+                            <!-- Experience 1 -->
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 animate-slide-up">
+                                <div class="flex items-start space-x-6">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
+                                            <i class="fas fa-code text-white text-xl"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Software Engineer Intern</h3>
+                                        <p class="text-lg text-indigo-600 dark:text-indigo-400 mb-3">Infinity Innovators</p>
+                                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                            Developed MyRide, a comprehensive vehicle management app with React Native for the 
+                                            front end and AWS serverless architecture for the back end. Collaborated with team 
+                                            members to deliver a production-ready mobile application.
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-3 py-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full text-sm">React Native</span>
+                                            <span class="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-700 dark:text-orange-300 rounded-full text-sm">AWS</span>
+                                            <span class="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-700 dark:text-green-300 rounded-full text-sm">Serverless</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Experience 2 -->
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 animate-slide-up" style="animation-delay: 0.2s;">
+                                <div class="flex items-start space-x-6">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-16 h-16 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg">
+                                            <i class="fas fa-mobile-alt text-white text-xl"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Freelance App Developer</h3>
+                                        <p class="text-lg text-emerald-600 dark:text-emerald-400 mb-3">Independent</p>
+                                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                                            Designed and developed mobile apps for iOS and Android, as well as web applications, 
+                                            using React Native Expo and Next.js. Delivered custom solutions for various clients 
+                                            with focus on user experience and performance.
+                                        </p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-3 py-1 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-700 dark:text-blue-300 rounded-full text-sm">React Native</span>
+                                            <span class="px-3 py-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full text-sm">Next.js</span>
+                                            <span class="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-700 dark:text-green-300 rounded-full text-sm">Expo</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonials -->
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-16 text-center">
+                            Client <span class="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">Testimonials</span>
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <!-- Testimonial 1 -->
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 animate-slide-up">
+                                <div class="flex items-center mb-6">
+                                    <div class="w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mr-4">
+                                        <span class="text-white font-bold text-lg">M</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-gray-900 dark:text-white">Mathesh</h4>
+                                        <p class="text-gray-600 dark:text-gray-400">Software Engineer Trainee at Infinity Innovators</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 italic mb-4">
+                                    "I had the pleasure of working with Chanaka during our internship at Infinity Innovators, 
+                                    where we were in the same team. He is highly passionate and enthusiastic, especially about 
+                                    machine learning. His skills in React Native and AWS serverless backend stood out."
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="flex space-x-1 text-yellow-500">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Testimonial 2 -->
+                            <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 animate-slide-up" style="animation-delay: 0.2s;">
+                                <div class="flex items-center mb-6">
+                                    <div class="w-14 h-14 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full flex items-center justify-center mr-4">
+                                        <span class="text-white font-bold text-lg">A</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-lg font-bold text-gray-900 dark:text-white">Anonymous Client</h4>
+                                        <p class="text-gray-600 dark:text-gray-400">Freelance Project</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 dark:text-gray-300 italic mb-4">
+                                    "Chanaka delivered an exceptional mobile application that exceeded our expectations. 
+                                    His attention to detail, technical expertise, and ability to understand our requirements 
+                                    made the entire development process smooth and efficient."
+                                </p>
+                                <div class="flex items-center">
+                                    <div class="flex space-x-1 text-yellow-500">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: ExperienceSection -->
+
+            <!-- Contact Section -->
+            <!-- @COMPONENT: ContactSection [contact form with glassmorphism] -->
+            <section id="contact" class="py-20 px-6">
+                <div class="max-w-4xl mx-auto">
+                    
+                    <!-- Section Header -->
+                    <div class="text-center mb-16 animate-fade-in">
+                        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                            Get In <span class="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">Touch</span>
+                        </h2>
+                        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                            Do you want to start a project together? Let's collaborate and create something amazing!
+                        </p>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-3xl border border-white/20 dark:border-gray-700/20 p-8 shadow-xl animate-slide-up">
+                        <form class="space-y-6" data-implementation="Connect to ASP.NET Core backend API">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">First Name *</label>
+                                    <input type="text" class="w-full px-4 py-3 bg-white/5 dark:bg-black/5 border border-white/20 dark:border-gray-700/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white backdrop-blur-sm" placeholder="John" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Last Name *</label>
+                                    <input type="text" class="w-full px-4 py-3 bg-white/5 dark:bg-black/5 border border-white/20 dark:border-gray-700/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white backdrop-blur-sm" placeholder="Doe" required>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email *</label>
+                                <input type="email" class="w-full px-4 py-3 bg-white/5 dark:bg-black/5 border border-white/20 dark:border-gray-700/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white backdrop-blur-sm" placeholder="john@example.com" required>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Project Type</label>
+                                <select class="w-full px-4 py-3 bg-white/5 dark:bg-black/5 border border-white/20 dark:border-gray-700/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white backdrop-blur-sm">
+                                    <option value="">Select a project type</option>
+                                    <option value="web">Web Application</option>
+                                    <option value="mobile">Mobile Application</option>
+                                    <option value="aiml">AI/ML Solution</option>
+                                    <option value="consulting">Consulting</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Budget Range</label>
+                                <select class="w-full px-4 py-3 bg-white/5 dark:bg-black/5 border border-white/20 dark:border-gray-700/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white backdrop-blur-sm">
+                                    <option value="">Select budget range</option>
+                                    <option value="5k-10k">$5,000 - $10,000</option>
+                                    <option value="10k-25k">$10,000 - $25,000</option>
+                                    <option value="25k-50k">$25,000 - $50,000</option>
+                                    <option value="50k+">$50,000+</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message *</label>
+                                <textarea rows="5" class="w-full px-4 py-3 bg-white/5 dark:bg-black/5 border border-white/20 dark:border-gray-700/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white backdrop-blur-sm resize-none" placeholder="Tell me about your project..." required></textarea>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <button type="submit" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                    Send Message
+                                </button>
+                                <button type="button" class="flex-1 backdrop-blur-md bg-white/10 dark:bg-black/10 text-gray-900 dark:text-white py-3 px-6 rounded-xl font-semibold border border-white/20 dark:border-gray-700/20 hover:bg-white/20 dark:hover:bg-black/20 transition-all duration-300 transform hover:scale-105">
+                                    Copy My Email
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                            <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-envelope text-white text-lg"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Email</h3>
+                            <p class="text-gray-600 dark:text-gray-400">chanaka@example.com</p>
+                        </div>
+                        
+                        <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                            <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-phone text-white text-lg"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Phone</h3>
+                            <p class="text-gray-600 dark:text-gray-400">+94 76 XXX XXXX</p>
+                        </div>
+                        
+                        <div class="backdrop-blur-md bg-white/10 dark:bg-black/10 rounded-2xl border border-white/20 dark:border-gray-700/20 p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                            <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-map-marker-alt text-white text-lg"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Location</h3>
+                            <p class="text-gray-600 dark:text-gray-400">Colombo, Sri Lanka</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- @END_COMPONENT: ContactSection -->
+
+        </main>
+
+        <!-- Footer -->
+        <!-- @COMPONENT: Footer [site footer with links and social media] -->
+        <footer class="relative z-10 py-12 px-6 border-t border-white/10 dark:border-gray-700/10">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                        <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">CP</span>
+                        </div>
+                        <span class="text-lg font-bold text-gray-900 dark:text-white">Chanaka Prasanna</span>
+                    </div>
+                    
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-8 border-t border-white/10 dark:border-gray-700/10 text-center">
+                    <p class="text-gray-600 dark:text-gray-400">
+                        © 2024 Chanaka Prasanna. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+        <!-- @END_COMPONENT: Footer -->
+
+    </div>
+    <!-- @END_COMPONENT: App -->
+
+    <script>
+        (function() {
+            // Dark mode functionality
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const htmlElement = document.documentElement;
+            
+            // Check for saved theme preference
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                htmlElement.classList.add('dark');
+            }
+            
+            darkModeToggle.addEventListener('click', function() {
+                htmlElement.classList.toggle('dark');
+                const theme = htmlElement.classList.contains('dark') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+            });
+            
+            // Mobile menu functionality
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('opacity-0');
+                mobileMenu.classList.toggle('-translate-y-4');
+                mobileMenu.classList.toggle('pointer-events-none');
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const offsetTop = target.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                    
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('opacity-0')) {
+                        mobileMenu.classList.add('opacity-0');
+                        mobileMenu.classList.add('-translate-y-4');
+                        mobileMenu.classList.add('pointer-events-none');
+                    }
+                });
+            });
+            
+            // Scroll animations
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.animate-fade-in, .animate-slide-up, .animate-scale-in');
+                elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('animate-fade-in');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Initialize animations on load
+            document.addEventListener('DOMContentLoaded', animateOnScroll);
+            
+            // Copy email functionality
+            document.querySelectorAll('button').forEach(button => {
+                if (button.textContent.includes('Copy My Email')) {
+                    button.addEventListener('click', function() {
+                        navigator.clipboard.writeText('chanaka@example.com').then(() => {
+                            this.textContent = 'Email Copied!';
+                            setTimeout(() => {
+                                this.textContent = 'Copy My Email';
+                            }, 2000);
+                        });
+                    });
+                }
+            });
+            
+            // Form submission handling
+            document.querySelector('form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // TODO: Implement form submission to ASP.NET Core backend
+                alert('Form submitted! (This would connect to your ASP.NET Core backend in production)');
+            });
+            
+        })();
+    </script>
+</body>
+</html>
