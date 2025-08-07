@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a modern, responsive portfolio website built with React, TypeScript, and Express.js. The application features a full-stack architecture with a React frontend using shadcn/ui components and a Node.js backend with PostgreSQL database integration via Drizzle ORM.
+This is a modern, responsive portfolio website built with React and TypeScript. The application features a frontend-only architecture with a React SPA using shadcn/ui components, static data, and no backend dependencies.
 
 ## User Preferences
 
@@ -10,15 +10,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### August 7, 2025 - Frontend-Only Architecture Conversion
-- **Complete Backend Removal**: Removed entire server directory, database integration, and admin dashboard functionality
+### August 7, 2025 - Complete Frontend-Only Conversion
+- **All Backend Files Removed**: Deleted all .NET Core backend files (Controllers, Models, Services, .cs, .csproj)
+- **Express.js Server Removed**: Removed Node.js/Express backend server directory
 - **Static Data Implementation**: Converted all dynamic content to use static data files instead of API calls
-- **Frontend-Only Portfolio**: Now runs as pure React application using Vite development server
-- **Simplified Architecture**: Eliminated PostgreSQL, Express.js, and all backend dependencies
-- **Static Project Gallery**: Projects now display from hardcoded data with 4 categorized sections
+- **Pure React SPA**: Now runs as single-page application using only Vite development server
+- **Simplified Dependencies**: Eliminated all backend frameworks and database dependencies
+- **Static Project Gallery**: Projects display from hardcoded data with 4 categorized sections
 - **Static Testimonials**: Client testimonials show from predefined data with horizontal scrolling
-- **Demo Contact Form**: Contact form shows success messages without actual email sending
-- **No Admin Interface**: Removed all administrative features and login functionality
+- **Demo Contact Form**: Contact form shows success messages without actual processing
+- **Development Script**: Created dev-frontend.sh for easy frontend-only development
 
 ### July 21, 2025 - Previous Backend Features (Now Removed)
 - **Horizontal Scrolling Layout**: Updated Recent Projects section to display all items in horizontal scrolling format
@@ -112,9 +113,10 @@ The application uses four main data types stored in static files:
 ## Deployment Strategy
 
 ### Development Environment
-- **Command**: `npx vite --host 0.0.0.0 --port 5000` - Runs Vite development server
+- **Frontend Only**: `./dev-frontend.sh` or `cd client && npx vite --host 0.0.0.0 --port 5000`
 - **Hot Reloading**: Automatic refresh on file changes
-- **Static Assets**: All assets served through Vite
+- **Static Assets**: All assets served through Vite development server
+- **No Backend**: Pure frontend React application
 
 ### Production Build
 - **Frontend**: Vite builds optimized static React application
