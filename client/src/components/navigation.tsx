@@ -62,11 +62,11 @@ export function Navigation() {
               whileHover={{ scale: 1.05 }}
               className="flex items-center space-x-2"
             >
-              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500">
+              <div className="w-10 h-10 rounded-full overflow-hidden ">
                 <img 
                   src={profileImage} 
                   alt="ChajeyRaj" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full "
                 />
               </div>
               <span className="text-2xl font-bold text-gray-900 dark:text-white">ChajeyRaj</span>
