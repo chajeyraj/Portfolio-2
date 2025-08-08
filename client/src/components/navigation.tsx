@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useTheme } from "@/hooks/use-theme";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "wouter";
 
 export function Navigation() {
   const { theme, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [location, navigate] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,13 +24,22 @@ export function Navigation() {
     { href: "#about", label: "About" },
     { href: "#projects", label: "Projects" },
     { href: "#contact", label: "Contact" },
+    { href: "/cv", label: "CV" },
   ];
 
   const handleNavClick = (href: string) => {
     setIsMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (href.startsWith("#")) {
+      // If we're not on the home route, navigate to home with hash so the browser scrolls
+      if (location !== "/") {
+        navigate(`/${href}`);
+        return;
+      }
+      // Already on home: smooth scroll
+      const element = document.querySelector(href);
+      if (element) element.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      navigate(href);
     }
   };
 

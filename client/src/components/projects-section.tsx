@@ -4,10 +4,102 @@ import { GlassCard } from "./ui/glass-card";
 import { ExternalLink, Github, Loader2, Palette, Code, Database, Zap } from "lucide-react";
 import type { Project } from "@shared/schema";
 
+// Local fallback data in case the API fails
+const localProjects: Project[] = [
+  {
+    id: 1,
+    title: "Modern Dashboard UI",
+    description:
+      "Complete UI/UX design system with interactive prototypes for a SaaS analytics platform",
+    image:
+      "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+    technologies: ["Figma", "UI/UX", "Prototyping", "Design System"],
+    githubUrl: "https://github.com/chanakaprasanna/dashboard-ui",
+    liveUrl: "https://figma.com/dashboard-prototype",
+    featured: 1,
+    category: "figma",
+    createdAt: new Date(),
+  },
+  {
+    id: 2,
+    title: "Interactive Portfolio",
+    description:
+      "Modern portfolio website with advanced animations and responsive design",
+    image:
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    githubUrl: "https://github.com/chanakaprasanna/portfolio",
+    liveUrl: "https://chanakaprasanna.dev",
+    featured: 1,
+    category: "frontend",
+    createdAt: new Date(),
+  },
+  {
+    id: 3,
+    title: "Interactive Portfolio",
+    description:
+      "Modern portfolio website with advanced animations and responsive design",
+    image:
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    githubUrl: "https://github.com/chanakaprasanna/portfolio",
+    liveUrl: "https://chanakaprasanna.dev",
+    featured: 1,
+    category: "frontend",
+    createdAt: new Date(),
+  },
+  {
+    id: 2,
+    title: "Interactive Portfolio",
+    description:
+      "Modern portfolio website with advanced animations and responsive design",
+    image:
+      "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    githubUrl: "https://github.com/chanakaprasanna/portfolio",
+    liveUrl: "https://chanakaprasanna.dev",
+    featured: 1,
+    category: "frontend",
+    createdAt: new Date(),
+  },
+  
+  {
+    id: 3,
+    title: "Personal Assistant",
+    description:
+      "Contextual Conversations Using RAG - Advanced AI assistant with natural language processing capabilities",
+    image:
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+    technologies: ["Python", "RAG", "NLP", "OpenAI", "PostgreSQL"],
+    githubUrl: "https://github.com/chanakaprasanna/personal-assistant",
+    liveUrl: "https://personal-assistant-demo.com",
+    featured: 1,
+    category: "full-stack",
+    createdAt: new Date(),
+  },
+  {
+    id: 4,
+    title: "Scroll-Based Storytelling",
+    description:
+      "Interactive storytelling website with advanced scroll-triggered animations",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400",
+    technologies: ["GSAP", "ScrollMagic", "Three.js", "WebGL"],
+    githubUrl: "https://github.com/chanakaprasanna/scroll-story",
+    liveUrl: "https://scroll-story-demo.com",
+    featured: 1,
+    category: "animation",
+    createdAt: new Date(),
+  },
+];
+
 export function ProjectsSection() {
   const { data: projects, isLoading, error } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
   });
+
+  // Use API data if available, otherwise fall back to local data
+  const effectiveProjects = (projects && projects.length > 0) ? projects : localProjects;
 
   // Category configuration
   const categories = [
@@ -46,7 +138,7 @@ export function ProjectsSection() {
   ];
 
   // Group projects by category
-  const projectsByCategory = projects?.reduce((acc, project) => {
+  const projectsByCategory = effectiveProjects?.reduce((acc, project) => {
     const category = project.category || "full-stack";
     if (!acc[category]) acc[category] = [];
     acc[category].push(project);
@@ -64,27 +156,13 @@ export function ProjectsSection() {
       </section>
     );
   }
-
-  if (error) {
-    return (
-      <section id="projects" className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Recent <span className="gradient-text">Projects</span>
-            </h2>
-            <p className="text-red-600 dark:text-red-400">
-              Failed to load projects. Please try again later.
-            </p>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  // Soft error handling: show a banner but continue with local data
+  const showWarning = Boolean(error) && (!projects || projects.length === 0);
 
   return (
     <section id="projects" className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
+        
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}

@@ -11,6 +11,61 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Experience, Testimonial } from "@shared/schema";
 
+// Local fallback data in case APIs fail
+const localExperiences: Experience[] = [
+  {
+    id: 1,
+    title: "Software Engineer Intern",
+    company: "Infinity Innovators",
+    description:
+      "Developed MyRide, a comprehensive vehicle management app with React Native and AWS serverless backend.",
+    technologies: ["React Native", "AWS", "Serverless", "Node.js"],
+    startDate: "2023-06",
+    endDate: "2023-12",
+    current: 0,
+    createdAt: new Date(),
+  },
+  {
+    id: 2,
+    title: "Freelance App Developer",
+    company: "Independent",
+    description:
+      "Designed and developed mobile and web apps using React Native Expo and Next.js with a focus on UX and performance.",
+    technologies: ["React Native", "Next.js", "Expo", "JavaScript"],
+    startDate: "2022-01",
+    endDate: null,
+    current: 1,
+    createdAt: new Date(),
+  },
+];
+
+const localTestimonials: Testimonial[] = [
+  {
+    id: 1,
+    name: "Mathesh",
+    title: "Software Engineer Trainee",
+    company: "Infinity Innovators",
+    content:
+      "Highly passionate and enthusiastic, especially about machine learning. Strong skills in React Native and AWS serverless.",
+    avatar: "M",
+    facebookId: null,
+    rating: 5,
+    createdAt: new Date(),
+  },
+  {
+    id: 2,
+    name: "Sarah Johnson",
+    title: "Project Manager",
+    company: "Tech Solutions Inc",
+    content:
+      "Exceptional mobile application delivery. Great attention to detail and technical expertise made the process smooth.",
+    avatar: "S",
+    facebookId: null,
+    rating: 5,
+    createdAt: new Date(),
+  },
+];
+
 interface NewReview {
   name: string;
   title: string;
@@ -32,13 +87,17 @@ export function ExperienceSection() {
   });
   const { toast } = useToast();
 
-  const { data: experiences, isLoading: experiencesLoading } = useQuery<Experience[]>({
+  const { data: experiences, isLoading: experiencesLoading, error: experiencesError } = useQuery<Experience[]>({
     queryKey: ["/api/experiences"],
   });
 
-  const { data: testimonials, isLoading: testimonialsLoading } = useQuery<Testimonial[]>({
+  const { data: testimonials, isLoading: testimonialsLoading, error: testimonialsError } = useQuery<Testimonial[]>({
     queryKey: ["/api/testimonials"],
   });
+
+  // Effective data with local fallbacks
+  const effectiveExperiences = (experiences && experiences.length > 0) ? experiences : localExperiences;
+  const effectiveTestimonials = (testimonials && testimonials.length > 0) ? testimonials : localTestimonials;
 
   // Create review mutation
   const createReviewMutation = useMutation({
@@ -102,6 +161,7 @@ export function ExperienceSection() {
   return (
     <section className="py-20 px-6">
       <div className="max-w-7xl mx-auto">
+       
         {/* Work Experience */}
         <div className="mb-20">
           <motion.h2
@@ -115,7 +175,7 @@ export function ExperienceSection() {
           </motion.h2>
 
           <div className="space-y-8">
-            {experiences?.map((experience, index) => (
+            {effectiveExperiences?.map((experience, index) => (
               <motion.div
                 key={experience.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -192,7 +252,7 @@ export function ExperienceSection() {
           {/* Horizontal Scrolling Testimonials */}
           <div className="overflow-x-auto horizontal-scroll pb-6">
             <div className="flex space-x-6 w-max px-1">
-              {testimonials?.map((testimonial, index) => (
+              {effectiveTestimonials?.map((testimonial, index) => (
                 <motion.div
                   key={testimonial.id}
                   initial={{ opacity: 0, x: 50 }}
