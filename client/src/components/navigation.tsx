@@ -62,10 +62,10 @@ export function Navigation() {
               className="flex items-center space-x-2"
             >
               <div className="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">CP</span>
+                <span className="text-white font-bold text-lg">CR</span>
               </div>
               <span className="text-xl font-bold text-gray-900 dark:text-white">
-                Chanaka
+                ChajeyRaj
               </span>
             </motion.div>
 
