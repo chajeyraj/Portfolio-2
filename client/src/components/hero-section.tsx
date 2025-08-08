@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { GlassCard } from "./ui/glass-card";
+import profileImage from "../img/cr.jpg";
 
 export function HeroSection() {
   const handleScrollToSection = (sectionId: string) => {
@@ -21,9 +22,14 @@ export function HeroSection() {
             className="mb-8 flex justify-center"
           >
             <div className="relative">
-              <div className="w-32 h-32 gradient-bg rounded-full p-1 animate-pulse-slow">
-                <div className="w-full h-full bg-gray-300 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                  <span className="text-4xl font-bold text-gray-600 dark:text-gray-400">CP</span>
+              <div className="w-32 h-32 gradient-bg rounded-full p-1 animate-pulse-slow overflow-hidden">
+                <div className="w-full h-full rounded-full overflow-hidden">
+                  <img 
+                    src={profileImage} 
+                    alt="ChajeyRaj" 
+                    className="w-full h-full object-cover"
+                    loading="eager"
+                  />
                 </div>
               </div>
               <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-white dark:border-gray-900 animate-bounce-slow" />
@@ -59,9 +65,9 @@ export function HeroSection() {
             <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
               Hi, I'm{" "}
               <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                Chanaka
+                Chajeyj
               </span>
-              , a AI/ML Enthusiast | Blogger | Final-year Undergraduate at University of Moratuwa
+              , a UI/UX Designer | Blogger | 3rd-year Undergraduate at University of Moratuwa
             </p>
           </motion.div>
 

@@ -48,7 +48,7 @@ const localTestimonials: Testimonial[] = [
     content:
       "Highly passionate and enthusiastic, especially about machine learning. Strong skills in React Native and AWS serverless.",
     avatar: "M",
-    facebookId: null,
+    facebookId: "nulmal",
     rating: 5,
     createdAt: new Date(),
   },
@@ -73,6 +73,16 @@ interface NewReview {
   content: string;
   facebookId: string;
   rating: number;
+}
+
+// Helper function to get initials from name
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+    .substring(0, 2);
 }
 
 export function ExperienceSection() {
@@ -240,13 +250,7 @@ export function ExperienceSection() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white text-center flex-1">
               Client <span className="gradient-text">Testimonials</span>
             </h2>
-            <Button
-              onClick={() => setShowReviewForm(true)}
-              className="ml-6 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-lg"
-            >
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Leave a Review
-            </Button>
+       
           </motion.div>
 
           {/* Horizontal Scrolling Testimonials */}
@@ -264,17 +268,9 @@ export function ExperienceSection() {
                   <GlassCard className="p-8 w-96 h-full" hover>
                     <div className="flex items-center mb-6">
                       <div className="w-14 h-14 gradient-bg rounded-full flex items-center justify-center mr-4">
-                        {testimonial.avatar ? (
-                          <img
-                            src={testimonial.avatar}
-                            alt={testimonial.name}
-                            className="w-full h-full rounded-full object-cover"
-                          />
-                        ) : (
-                          <span className="text-white font-bold text-lg">
-                            {testimonial.name.charAt(0)}
-                          </span>
-                        )}
+                        <span className="text-white font-bold text-xl">
+                          {getInitials(testimonial.name)}
+                        </span>
                       </div>
                       <div>
                         <h4 className="text-lg font-bold text-gray-900 dark:text-white">
@@ -320,127 +316,7 @@ export function ExperienceSection() {
             </div>
           )}
 
-          {/* Review Form Modal */}
-          {showReviewForm && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-              onClick={(e) => {
-                if (e.target === e.currentTarget) {
-                  setShowReviewForm(false);
-                }
-              }}
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white dark:bg-gray-900 rounded-2xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto"
-              >
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                  Leave a Review
-                </h3>
-                
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="name">Name *</Label>
-                    <Input
-                      id="name"
-                      value={newReview.name}
-                      onChange={(e) => setNewReview(prev => ({ ...prev, name: e.target.value }))}
-                      placeholder="Your full name"
-                      className="mt-1"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="title">Job Title</Label>
-                    <Input
-                      id="title"
-                      value={newReview.title}
-                      onChange={(e) => setNewReview(prev => ({ ...prev, title: e.target.value }))}
-                      placeholder="e.g., Software Engineer"
-                      className="mt-1"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="company">Company</Label>
-                    <Input
-                      id="company"
-                      value={newReview.company}
-                      onChange={(e) => setNewReview(prev => ({ ...prev, company: e.target.value }))}
-                      placeholder="e.g., Tech Corp"
-                      className="mt-1"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="facebookId">Facebook ID (optional)</Label>
-                    <Input
-                      id="facebookId"
-                      value={newReview.facebookId}
-                      onChange={(e) => setNewReview(prev => ({ ...prev, facebookId: e.target.value }))}
-                      placeholder="Your Facebook username"
-                      className="mt-1"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="rating">Rating</Label>
-                    <div className="flex items-center space-x-2 mt-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          onClick={() => setNewReview(prev => ({ ...prev, rating: star }))}
-                          className={`p-1 ${star <= newReview.rating ? 'text-yellow-500' : 'text-gray-300'}`}
-                        >
-                          <StarIcon className="w-6 h-6 fill-current" />
-                        </button>
-                      ))}
-                      <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
-                        {newReview.rating} star{newReview.rating !== 1 ? 's' : ''}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="content">Comment *</Label>
-                    <Textarea
-                      id="content"
-                      value={newReview.content}
-                      onChange={(e) => setNewReview(prev => ({ ...prev, content: e.target.value }))}
-                      placeholder="Share your experience working with me..."
-                      rows={4}
-                      className="mt-1"
-                    />
-                  </div>
-                </div>
-                
-                <div className="flex justify-end space-x-3 mt-6">
-                  <Button
-                    variant="outline"
-                    onClick={() => setShowReviewForm(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={handleSubmitReview}
-                    disabled={createReviewMutation.isPending}
-                    className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600"
-                  >
-                    {createReviewMutation.isPending && (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    )}
-                    Submit Review
-                  </Button>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
+  
         </div>
       </div>
     </section>

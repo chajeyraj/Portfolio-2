@@ -2,7 +2,7 @@ import {
   composeEventHandlers,
   useCallbackRef,
   useLayoutEffect2
-} from "./chunk-6B5OWN77.js";
+} from "./chunk-OADW57VN.js";
 import {
   Primitive,
   dispatchDiscreteCustomEvent
@@ -304,4 +304,4 @@ export {
   VisuallyHidden,
   Root2
 };
-//# sourceMappingURL=chunk-THVM4CI7.js.map
+//# sourceMappingURL=chunk-G4T7RZ47.js.map

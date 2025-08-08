@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { GlassCard } from "./ui/glass-card";
 import { Github, Linkedin, Mail, Twitter, ArrowUp, Heart, ExternalLink } from "lucide-react";
+import profileImage from "../img/cr.jpg";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -59,15 +60,19 @@ export function Footer() {
                   className="mb-6"
                 >
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center shadow-lg">
-                      <span className="text-white font-bold text-xl">CP</span>
+                    <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-indigo-500">
+                      <img 
+                        src={profileImage} 
+                        alt="ChajeyRaj" 
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                        Chanaka Prasanna
+                        Chajeyraj Kunaraj
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        AI/ML Engineer & Full Stack Developer
+                        UI/UX Designer & Full Stack Developer
                       </p>
                     </div>
                   </div>
@@ -180,7 +185,7 @@ export function Footer() {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex items-center space-x-2 mb-4 md:mb-0">
                 <span className="text-gray-600 dark:text-gray-400">
-                  © {currentYear} Chanaka Prasanna. All rights reserved.
+                  © {currentYear} ChajeyRaj. All rights reserved.
                 </span>
                 <span className="text-gray-400 dark:text-gray-600">•</span>
                 <span className="text-gray-600 dark:text-gray-400 flex items-center">

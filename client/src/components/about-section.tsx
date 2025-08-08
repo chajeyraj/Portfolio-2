@@ -198,7 +198,7 @@ export function AboutSection() {
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <span className="px-4 py-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full font-medium text-sm">
-                      AI/ML Enthusiast
+                    UI/UX Designer
                     </span>
                     <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-700 dark:text-purple-300 rounded-full font-medium text-sm">
                       Software Developer

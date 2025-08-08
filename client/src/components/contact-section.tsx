@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { GlassCard } from "./ui/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,13 +11,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Copy, Check } from "lucide-react";
 import { insertContactSchema } from "@shared/schema";
-import { apiRequest } from "@/lib/queryClient";
 import type { InsertContact } from "@shared/schema";
 
 export function ContactSection() {
   const [emailCopied, setEmailCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
   const form = useForm<InsertContact>({
     resolver: zodResolver(insertContactSchema),
@@ -32,45 +30,48 @@ export function ContactSection() {
     },
   });
 
-  const contactMutation = useMutation({
-    mutationFn: async (data: InsertContact) => {
-      const response = await apiRequest("POST", "/api/contact", data);
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Message sent successfully!",
-        description: "Thank you for your message. I'll get back to you soon.",
+  const onSubmit = async (data: InsertContact) => {
+    setLoading(true);
+    try {
+      const response = await fetch("https://formspree.io/f/xkgzpapq", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
-      form.reset();
-      queryClient.invalidateQueries({ queryKey: ["/api/contacts"] });
-    },
-    onError: (error) => {
+
+      if (response.ok) {
+        toast({
+          title: "Message sent successfully!",
+          description: "Thank you for your message. I'll get back to you soon.",
+        });
+        form.reset();
+      } else {
+        throw new Error("Form submission failed");
+      }
+    } catch (error: any) {
       toast({
         title: "Failed to send message",
         description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
-    },
-  });
-
-  const onSubmit = (data: InsertContact) => {
-    contactMutation.mutate(data);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const copyEmail = async () => {
     try {
-      await navigator.clipboard.writeText("chanaka@example.com");
+      await navigator.clipboard.writeText("chajeyraj@gmail.com");
       setEmailCopied(true);
       toast({
         title: "Email copied to clipboard!",
-        description: "chanaka@example.com",
+        description: "chajeyraj@gmail.com",
       });
       setTimeout(() => setEmailCopied(false), 3000);
     } catch (error) {
       toast({
         title: "Failed to copy email",
-        description: "Please copy the email manually: chanaka@example.com",
+        description: "Please copy the email manually: chajeyraj@gmail.com",
         variant: "destructive",
       });
     }
@@ -125,7 +126,7 @@ export function ContactSection() {
                       </FormItem>
                     )}
                   />
-                  
+
                   <FormField
                     control={form.control}
                     name="lastName"
@@ -159,7 +160,7 @@ export function ContactSection() {
                         <Input
                           {...field}
                           type="email"
-                          placeholder="john@example.com"
+                          placeholder="chajeyraj@gmail.com"
                           className="glass-effect border-0 focus:ring-2 focus:ring-indigo-500"
                         />
                       </FormControl>
@@ -214,6 +215,7 @@ export function ContactSection() {
                           <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
                           <SelectItem value="25k-50k">$25,000 - $50,000</SelectItem>
                           <SelectItem value="50k+">$50,000+</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -245,12 +247,12 @@ export function ContactSection() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     type="submit"
-                    disabled={contactMutation.isPending}
+                    disabled={loading}
                     className="flex-1 gradient-bg text-white hover:shadow-xl transition-all duration-300"
                   >
-                    {contactMutation.isPending ? "Sending..." : "Send Message"}
+                    {loading ? "Sending..." : "Send Message"}
                   </Button>
-                  
+
                   <Button
                     type="button"
                     variant="outline"
@@ -288,7 +290,7 @@ export function ContactSection() {
               <Mail className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Email</h3>
-            <p className="text-gray-600 dark:text-gray-400">chanaka@example.com</p>
+            <p className="text-gray-600 dark:text-gray-400">chajeyraj@gmail.com</p>
           </GlassCard>
 
           <GlassCard className="p-6 text-center" hover>
@@ -296,7 +298,7 @@ export function ContactSection() {
               <Phone className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Phone</h3>
-            <p className="text-gray-600 dark:text-gray-400">+94 76 XXX XXXX</p>
+            <p className="text-gray-600 dark:text-gray-400">+94 75 876 6813</p>
           </GlassCard>
 
           <GlassCard className="p-6 text-center" hover>
@@ -304,7 +306,7 @@ export function ContactSection() {
               <MapPin className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Location</h3>
-            <p className="text-gray-600 dark:text-gray-400">Colombo, Sri Lanka</p>
+            <p className="text-gray-600 dark:text-gray-400">Batticaloa, Sri Lanka</p>
           </GlassCard>
         </motion.div>
       </div>
