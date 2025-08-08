@@ -1,0 +1,11 @@
+Placeholder for project images. Please replace with actual images:
+
+- studio.png
+- mediclimic1.jpg
+- School-Management-System.jpg
+- singlepage.jpg
+- studio-management.jpg
+- school-management-system2.gif
+- medical.jpg
+
+Place these files in the client/src/assets/projects/ directory.

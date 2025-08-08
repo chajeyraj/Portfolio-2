@@ -25,35 +25,37 @@ import {
 
 export function AboutSection() {
   const stats = [
-    { value: "15+", label: "Projects Completed", color: "from-indigo-500 to-purple-500", icon: <Code className="w-6 h-6" /> },
-    { value: "3+", label: "Years Experience", color: "from-purple-500 to-pink-500", icon: <Clock className="w-6 h-6" /> },
+    { value: "2+", label: "Projects Completed", color: "from-indigo-500 to-purple-500", icon: <Code className="w-6 h-6" /> },
+    { value: "1+", label: "Years Experience", color: "from-purple-500 to-pink-500", icon: <Clock className="w-6 h-6" /> },
     { value: "100%", label: "Client Satisfaction", color: "from-cyan-500 to-emerald-500", icon: <Users className="w-6 h-6" /> },
     { value: "24/7", label: "Available", color: "from-emerald-500 to-teal-500", icon: <Target className="w-6 h-6" /> },
   ];
 
   const skillsData = [
     { name: "React/Next.js", level: 95, color: "#61DAFB" },
-    { name: "Python", level: 90, color: "#3776AB" },
-    { name: "AI/ML", level: 85, color: "#FF6B6B" },
-    { name: "AWS", level: 80, color: "#FF9900" },
+    { name: "C , C#", level: 90, color: "#3776AB" },
+    { name: "UI/UX", level: 85, color: "#FF6B6B" },
+    { name: "Figma", level: 80, color: "#FF9900" },
     { name: "Node.js", level: 88, color: "#339933" },
-    { name: "MongoDB", level: 82, color: "#47A248" },
+    { name: "DB", level: 82, color: "#47A248" },
   ];
 
   const projectStatsData = [
-    { name: "AI/ML Projects", value: 6, color: "#8B5CF6" },
-    { name: "Web Applications", value: 8, color: "#06B6D4" },
-    { name: "Mobile Apps", value: 4, color: "#F59E0B" },
-    { name: "Consulting", value: 3, color: "#EF4444" },
+    { name: "UI/UX Design", value: 8, color: "#8B5CF6" },
+    { name: "Web Applications", value: 6, color: "#06B6D4" },
+    { name: "Mobile Apps", value: 3, color: "#F59E0B" },
+    { name: "Consulting", value: 4, color: "#EF4444" },
   ];
 
   const techStack = [
-    { name: "React.js", icon: "⚛️", color: "from-cyan-500 to-blue-500" },
+    { name: "React.js", icon: "🕸️", color: "from-cyan-500 to-blue-500" },
     { name: "Next.js", icon: "▲", color: "from-gray-800 to-gray-600" },
-    { name: "Python", icon: "🐍", color: "from-green-500 to-yellow-500" },
-    { name: "Vue.js", icon: "V", color: "from-green-600 to-emerald-600" },
+    { name: "Java", icon: "🍵", color: "from-green-500 to-yellow-500" },
+    { name: "C & C# ", icon: "C", color: "from-green-600 to-emerald-600" },
     { name: "AWS", icon: "☁️", color: "from-orange-500 to-red-500" },
-    { name: "MongoDB", icon: "🍃", color: "from-green-600 to-lime-600" },
+    { name: "Photoshop", icon: "Ps", color: "from-blue-900 to-blue-700 font-bold" },
+
+
   ];
 
   const values = [
@@ -181,7 +183,7 @@ export function AboutSection() {
               <div className="mb-8">
                 <div className="w-24 h-24 mx-auto mb-6 gradient-bg rounded-full p-1">
                   <div className="w-full h-full bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                    <span className="text-2xl font-bold text-gray-600 dark:text-gray-400">CP</span>
+                    <span className="text-2xl font-bold text-gray-600 dark:text-gray-400">CR</span>
                   </div>
                 </div>
                 <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -208,8 +210,9 @@ export function AboutSection() {
                 
                 <div>
                   <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-                    Transform. Develop. Achieve. As a motivated individual with a strong interest in
-                    AI/ML & Software developments, I bridge the gap between human needs and machine capabilities.
+                  Passionate IT undergraduate seeking a UI/UX internship to apply creativity and technical skills in real-world projects.
+                  Dedicated to enhancing user experiences through intuitive design and collaborative teamwork.
+
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 dark:text-cyan-300 rounded-full font-medium text-sm">
