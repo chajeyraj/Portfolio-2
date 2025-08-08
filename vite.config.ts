@@ -33,19 +33,24 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
-    // Handle SPA fallback for client-side routing
-    historyApiFallback: true,
   },
   // Configure the base URL for production
   base: "/",
-  // Configure the build output for SPA
+  // Build configuration for production
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
     rollupOptions: {
       output: {
         manualChunks: undefined, // Disable code splitting for now to avoid 404s
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash][extname]'
       },
     },
+  },
+  // Environment variables
+  define: {
+    'import.meta.env.VITE_APP_BASE': JSON.stringify(process.env.NODE_ENV === 'production' ? '/' : '/')
   },
 });
