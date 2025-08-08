@@ -33,5 +33,19 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
+    // Handle SPA fallback for client-side routing
+    historyApiFallback: true,
+  },
+  // Configure the base URL for production
+  base: "/",
+  // Configure the build output for SPA
+  build: {
+    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined, // Disable code splitting for now to avoid 404s
+      },
+    },
   },
 });
