@@ -1,5 +1,5 @@
 [build]
-  command = "cd client && npm install && npm run build"
+  command = "npm install && npm run build"
   publish = "dist"
 
 [[redirects]]
@@ -11,10 +11,6 @@
   NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
   NODE_OPTIONS = "--openssl-legacy-provider"
-
-# Remove Next.js plugin as this is a Vite/React app
-# [[plugins]]
-#   package = "@netlify/plugin-nextjs"
 
 [dev]
   framework = "vite"

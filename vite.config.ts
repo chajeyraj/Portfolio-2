@@ -41,7 +41,7 @@ export default defineConfig({
   base: "/",
   // Build configuration
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
     rollupOptions: {
       output: {
@@ -51,6 +51,8 @@ export default defineConfig({
         assetFileNames: 'assets/[name].[hash][extname]'
       },
     },
+    // Ensure the build includes the _redirects file
+    copyPublicDir: true,
   },
   // Environment variables
   define: {
