@@ -3,6 +3,12 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 export default defineConfig({
   plugins: [
     react(),
@@ -24,19 +30,16 @@ export default defineConfig({
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-  },
   server: {
     fs: {
       strict: true,
       deny: ["**/.*"],
     },
   },
+  cacheDir: resolve(__dirname, '.vite-temp'),
   // Configure the base URL for production
   base: "/",
-  // Build configuration for production
+  // Build configuration
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
