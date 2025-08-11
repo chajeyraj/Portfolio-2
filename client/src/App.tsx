@@ -9,6 +9,7 @@ import AdminLogin from "@/pages/admin-login";
 import AdminDashboard from "@/pages/admin-dashboard";
 import NotFound from "@/pages/not-found";
 import CV from "@/pages/cv";
+import ProjectDetails from "@/pages/project-details";
 
 function Router() {
   return (
@@ -17,6 +18,8 @@ function Router() {
       <Route path="/admin" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/cv" component={CV} />
+      <Route path="/project/:slug" component={ProjectDetails} />
+      <Route path="/project-details" component={ProjectDetails} />
       <Route component={NotFound} />
     </Switch>
   );

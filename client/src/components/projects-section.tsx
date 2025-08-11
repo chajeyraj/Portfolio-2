@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { GlassCard } from "./ui/glass-card";
 import { ExternalLink, Github, Loader2, Palette, Code, Database, Zap } from "lucide-react";
 import type { Project } from "@shared/schema";
+import { getSlug } from "@/data/projects";
 
 // Image paths from public folder
 const IMAGE_PATHS = {
@@ -12,7 +13,8 @@ const IMAGE_PATHS = {
   singlepage: "/images/projects/singlepage.jpg",
   studioManagement: "/images/projects/studio-management.jpg",
   schoolGif: "/images/projects/school-management-system2.gif",
-  medical: "/images/projects/medical.jpg"
+  medical: "/images/projects/medical.jpg",
+  poster: "/images/projects/poster.jpg"
 };
 
 // Local fallback data
@@ -109,12 +111,11 @@ const localProjects: Project[] = [
 
   {
     id: 3,
-    title: "Personal Assistant",
+    title: "Task Key",
     description:
-      "Contextual Conversations Using RAG - Advanced AI assistant with natural language processing capabilities",
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&h=400",
-    technologies: ["Python", "RAG", "NLP", "OpenAI", "PostgreSQL"],
+      "I create videos, photos, and UI/UX designs, working with developers to turn client ideas into complete full-stack websites.",
+      image: IMAGE_PATHS.poster,
+      technologies: ["react","dotnet", "typescript", "tailwind", "framer-motion"],
     githubUrl: "https://github.com/chanakaprasanna/personal-assistant",
     liveUrl: "https://personal-assistant-demo.com",
     featured: 1,
@@ -292,7 +293,7 @@ export function ProjectsSection() {
                           <div className="flex flex-wrap gap-2 mb-4">
                             {Array.isArray(project.technologies)
                               ? project.technologies
-                                  .slice(0, 3)
+                                  .slice(0, 8)
                                   .map((tech, techIndex) => (
                                     <span
                                       key={techIndex}
@@ -302,12 +303,7 @@ export function ProjectsSection() {
                                     </span>
                                   ))
                               : null}
-                            {Array.isArray(project.technologies) &&
-                              project.technologies.length > 3 && (
-                                <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full text-sm">
-                                  +{project.technologies.length - 3} more
-                                </span>
-                              )}
+                 
                           </div>
 
                           <div className="flex space-x-4 mt-auto">
@@ -335,9 +331,14 @@ export function ProjectsSection() {
                                   <span>Figma</span>
                                 </a>
                               )}
-                            {project.liveUrl && (
+                            {project && (
                               <a
-                                href={project.liveUrl}
+                                href={`/project/${getSlug(project.title)}`}
+                                onClick={(e) => {
+                                  try {
+                                    sessionStorage.setItem("selectedProject", JSON.stringify(project));
+                                  } catch (_) {}
+                                }}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"

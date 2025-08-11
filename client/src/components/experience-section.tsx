@@ -13,26 +13,15 @@ import type { Experience, Testimonial } from "@shared/schema";
 
 // Local fallback data in case APIs fail
 const localExperiences: Experience[] = [
+  
   {
     id: 1,
-    title: "Software Engineer Intern",
-    company: "Infinity Innovators",
+    title: "Studio Bright Focus [ Video Editor / Photo Editor ]",
+    company: "STUDIO BRIGHT FOCUS",
     description:
-      "Developed MyRide, a comprehensive vehicle management app with React Native and AWS serverless backend.",
-    technologies: ["React Native", "AWS", "Serverless", "Node.js"],
-    startDate: "2023-06",
-    endDate: "2023-12",
-    current: 0,
-    createdAt: new Date(),
-  },
-  {
-    id: 2,
-    title: "Freelance App Developer",
-    company: "Independent",
-    description:
-      "Designed and developed mobile and web apps using React Native Expo and Next.js with a focus on UX and performance.",
-    technologies: ["React Native", "Next.js", "Expo", "JavaScript"],
-    startDate: "2022-01",
+      "Collaborated with clients to deliver creative visual content aligned with brand style.",
+    technologies: ["Adobe After Effects", "Adobe Premiere Pro", "Capture One", "Adobe Lightroom", "Adobe Photoshop"],
+    startDate: "2021-11",
     endDate: null,
     current: 1,
     createdAt: new Date(),

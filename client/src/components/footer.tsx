@@ -72,7 +72,7 @@ export function Footer() {
                         Chajeyraj Kunaraj
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        UI/UX Designer & Full Stack Developer
+                        UI/UX Designer | Full Stack Developer
                       </p>
                     </div>
                   </div>
@@ -189,7 +189,7 @@ export function Footer() {
                 </span>
                 <span className="text-gray-400 dark:text-gray-600">•</span>
                 <span className="text-gray-600 dark:text-gray-400 flex items-center">
-                  Built with <Heart className="w-4 h-4 text-red-500 mx-1" fill="currentColor" /> and React
+                 <Heart className="w-4 h-4 text-red-500 mx-1" fill="currentColor" /> 
                 </span>
               </div>
               
