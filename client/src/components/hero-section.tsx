@@ -44,14 +44,14 @@ export function HeroSection() {
             className="mb-8"
           >
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-4">
-              The future is{" "}
-              <span className="gradient-text">digital</span>
+              Hi i'm {" "}
+              <span className="gradient-text">Chajeyraj</span>
             </h1>
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              and it's happening now
+            Frontend Developer | UI/UX Designer | Software Engineer
             </h2>
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-6">
-              Bridging the Gap Between Human and Machines
+            Third Year Undergraduate at University of Moratuwa
             </p>
           </motion.div>
 
@@ -63,11 +63,11 @@ export function HeroSection() {
             className="mb-8"
           >
             <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
-              Hi, I'm{" "}
+              {" "}
               <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                Chajeyraj 
+                
               </span>
-               , Frontend Developer | UI/UX Designer | Software Engineer | Third Year Undergraduate at University of Moratuwa
+               
             </p>
           </motion.div>
 

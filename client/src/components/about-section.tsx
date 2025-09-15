@@ -27,7 +27,7 @@ export function AboutSection() {
   const stats = [
     { value: "2+", label: "Projects Completed", color: "from-indigo-500 to-purple-500", icon: <Code className="w-6 h-6" /> },
     { value: "1+", label: "Years Experience", color: "from-purple-500 to-pink-500", icon: <Clock className="w-6 h-6" /> },
-    { value: "100%", label: "Client Satisfaction", color: "from-cyan-500 to-emerald-500", icon: <Users className="w-6 h-6" /> },
+    { value: "100%", label: "Satisfaction", color: "from-cyan-500 to-emerald-500", icon: <Users className="w-6 h-6" /> },
     { value: "24/7", label: "Available", color: "from-emerald-500 to-teal-500", icon: <Target className="w-6 h-6" /> },
   ];
 
@@ -51,9 +51,9 @@ export function AboutSection() {
     { name: "React.js", icon: "🕸️", color: "from-cyan-500 to-blue-500" },
     { name: "Next.js", icon: "▲", color: "from-gray-800 to-gray-600" },
     { name: "Java", icon: "🍵", color: "from-green-500 to-yellow-500" },
-    { name: "C & C# ", icon: "C", color: "from-green-600 to-emerald-600" },
+    { name: "C&C# ", icon: "C", color: "from-green-600 to-emerald-600" },
     { name: "AWS", icon: "☁️", color: "from-orange-500 to-red-500" },
-    { name: "Photoshop", icon: "Ps", color: "from-blue-900 to-blue-700 font-bold" },
+    { name: "P.shop", icon: "Ps", color: "from-blue-900 to-blue-700 font-bold" },
 
 
   ];
@@ -73,8 +73,8 @@ export function AboutSection() {
     },
     {
       icon: <Users className="w-6 h-6" />,
-      title: "Client Focus",
-      description: "Understanding and exceeding client expectations through personalized solutions",
+      title: "Focus",
+      description: "Understanding and exceeding other expectations through personalized solutions",
       color: "from-cyan-500 to-emerald-500"
     },
     {
@@ -193,10 +193,8 @@ export function AboutSection() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
                 <div>
-                  <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-                    I constantly try to improve my skills and stay updated with the latest technologies.
-                    Available to connect seamlessly across any time zone, I'm committed to delivering
-                    exceptional results through effortless client collaboration and transparency.
+                  <p className="text-lg text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                  I constantly improve my skills and stay updated with the latest technologies. Available to connect seamlessly across any time zone, I'm committed to delivering exceptional results through effortless client collaboration and transparency.
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <span className="px-4 py-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full font-medium text-sm">
@@ -209,10 +207,8 @@ export function AboutSection() {
                 </div>
                 
                 <div>
-                  <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-                  Passionate IT undergraduate seeking a UI/UX internship to apply creativity and technical skills in real-world projects.
-                  Dedicated to enhancing user experiences through intuitive design and collaborative teamwork.
-
+                  <p className="text-lg text-gray-600 dark:text-gray-400 mb-6 text-justify">
+                  Passionate IT undergraduate seeking a UI/UX internship to apply creativity and technical skills in real-world projects. Dedicated to enhancing user experiences through intuitive design and collaborative teamwork.
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <span className="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 text-cyan-700 dark:text-cyan-300 rounded-full font-medium text-sm">
@@ -229,123 +225,7 @@ export function AboutSection() {
         </div>
 
         {/* Skills and Project Stats Charts */}
-        <div className="mb-16">
-          <motion.h3
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center"
-          >
-            Skills & Project Statistics
-          </motion.h3>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Skills Bar Chart */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <GlassCard className="p-6" hover>
-                <div className="flex items-center mb-6">
-                  <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center mr-3">
-                    <TrendingUp className="w-5 h-5 text-white" />
-                  </div>
-                  <h4 className="text-xl font-bold text-gray-900 dark:text-white">
-                    Technical Skills
-                  </h4>
-                </div>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={skillsData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" strokeOpacity={0.3} />
-                      <XAxis 
-                        dataKey="name" 
-                        stroke="#6B7280" 
-                        fontSize={12}
-                        angle={-45}
-                        textAnchor="end"
-                        height={80}
-                      />
-                      <YAxis stroke="#6B7280" fontSize={12} />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: 'rgba(17, 24, 39, 0.9)', 
-                          border: 'none', 
-                          borderRadius: '12px',
-                          color: 'white'
-                        }}
-                      />
-                      <Bar dataKey="level" fill="#8B5CF6" radius={[4, 4, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </GlassCard>
-            </motion.div>
-
-            {/* Project Stats Pie Chart */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <GlassCard className="p-6" hover>
-                <div className="flex items-center mb-6">
-                  <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-lg flex items-center justify-center mr-3">
-                    <Award className="w-5 h-5 text-white" />
-                  </div>
-                  <h4 className="text-xl font-bold text-gray-900 dark:text-white">
-                    Project Distribution
-                  </h4>
-                </div>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={projectStatsData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {projectStatsData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: 'rgba(17, 24, 39, 0.9)', 
-                          border: 'none', 
-                          borderRadius: '12px',
-                          color: 'white'
-                        }}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="mt-4 grid grid-cols-2 gap-2">
-                  {projectStatsData.map((item, index) => (
-                    <div key={index} className="flex items-center">
-                      <div 
-                        className="w-3 h-3 rounded-full mr-2" 
-                        style={{ backgroundColor: item.color }}
-                      />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
-                        {item.name}: {item.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </GlassCard>
-            </motion.div>
-          </div>
-        </div>
+       
 
         {/* Core Values */}
         <div>

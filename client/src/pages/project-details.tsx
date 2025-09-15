@@ -5,6 +5,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocation, useRoute } from "wouter";
 import { AnimatedBackground } from "@/components/animated-background";
 import { findProjectBySlug, localProjects, getSlug } from "@/data/projects";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 
 function useQueryParams() {
   const [params, setParams] = useState<Record<string, string>>({});
@@ -85,7 +87,9 @@ export default function ProjectDetails() {
   const isEmpty = (match && params?.slug) ? (data.title === undefined || data.title === null || data.title === "") : (!data.title && !data.desc && !data.image);
 
   return (
-    <section className="min-h-screen py-24 px-6 relative">
+    <div className="min-h-screen flex flex-col">
+      <Navigation />
+      <main className="flex-1 pt-24 px-6 relative">
 
        {/* Top image-circle navigation */}
       {localProjects.length > 1 && (
@@ -218,6 +222,8 @@ export default function ProjectDetails() {
           )}
         </motion.div>
       </div>
-    </section>
+      </main>
+      <Footer />
+    </div>
   );
 }
