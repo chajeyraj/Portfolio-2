@@ -31,25 +31,25 @@ const localExperiences: Experience[] = [
 const localTestimonials: Testimonial[] = [
   {
     id: 1,
-    name: "Mathesh",
-    title: "Software Engineer Trainee",
-    company: "Infinity Innovators",
+    name: "Vijikaran",
+    title: "Doctor",
+    company: "Cliniv Arogya",
     content:
-      "Highly passionate and enthusiastic, especially about machine learning. Strong skills in React Native and AWS serverless.",
+      "Someone who looked like a stranger did a project for our clinic for free on the date we mentioned.",
     avatar: "M",
-    facebookId: "nulmal",
+    facebookId: "Viji Karan",
     rating: 5,
     createdAt: new Date(),
   },
   {
     id: 2,
-    name: "Sarah Johnson",
-    title: "Project Manager",
-    company: "Tech Solutions Inc",
+    name: "Rishanu",
+    title: "Owner ",
+    company: "Studio Bright Focus",
     content:
-      "Exceptional mobile application delivery. Great attention to detail and technical expertise made the process smooth.",
-    avatar: "S",
-    facebookId: null,
+      "In our studio, he is the best photo editor and a good person who can complete work within the promised time.",
+    avatar: "R",
+    facebookId: "Rishanu Rishanu",
     rating: 5,
     createdAt: new Date(),
   },
@@ -182,7 +182,7 @@ export function ExperienceSection() {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 viewport={{ once: true }}
               >
-                <GlassCard className="p-8" hover>
+                <GlassCard className="p-4 sm:p-6 mb-4 sm:mb-6" hover>
                   <div className="flex items-start space-x-6">
                     <div className="flex-shrink-0">
                       <div className="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center shadow-lg">
@@ -190,34 +190,42 @@ export function ExperienceSection() {
                       </div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                        {experience.title}
-                      </h3>
-                      <p className="text-lg text-indigo-600 dark:text-indigo-400 mb-1">
-                        {experience.company}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                        {experience.startDate} - {experience.endDate || "Present"}
-                        {experience.current === 1 && (
-                          <span className="ml-2 px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">
-                            Current
-                          </span>
-                        )}
-                      </p>
-                      <p className="text-gray-600 dark:text-gray-400 mb-4">
-                        {experience.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {Array.isArray(experience.technologies) ? 
-                          experience.technologies.map((tech, techIndex) => (
-                            <span
-                              key={techIndex}
-                              className="px-3 py-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full text-sm"
-                            >
-                              {tech}
-                            </span>
-                          )) : null
-                        }
+                      <div className="flex flex-col">
+                        <div className="mb-4">
+                          <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+                            {experience.title}
+                          </h3>
+                          <p className="text-indigo-600 dark:text-indigo-400 font-medium text-sm sm:text-base">
+                            {experience.company}
+                          </p>
+                          <div className="flex items-center flex-wrap gap-2 mt-1">
+                            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                              {experience.startDate} - {experience.endDate || "Present"}
+                            </p>
+                            {experience.current === 1 && (
+                              <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">
+                                Current
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
+                            {experience.description}
+                          </p>
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                            {Array.isArray(experience.technologies) ? 
+                              experience.technologies.map((tech, techIndex) => (
+                                <span
+                                  key={techIndex}
+                                  className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 text-indigo-700 dark:text-indigo-300 rounded-full text-xs sm:text-sm"
+                                >
+                                  {tech}
+                                </span>
+                              )) : null
+                            }
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -237,7 +245,7 @@ export function ExperienceSection() {
             className="flex items-center justify-between mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white text-center flex-1">
-              Client <span className="gradient-text">Testimonials</span>
+            motivation <span className="gradient-text"> & review</span>
             </h2>
        
           </motion.div>

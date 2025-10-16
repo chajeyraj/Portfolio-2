@@ -25,8 +25,8 @@ import {
 
 export function AboutSection() {
   const stats = [
-    { value: "2+", label: "Projects Completed", color: "from-indigo-500 to-purple-500", icon: <Code className="w-6 h-6" /> },
-    { value: "1+", label: "Years Experience", color: "from-purple-500 to-pink-500", icon: <Clock className="w-6 h-6" /> },
+    //{ value: "2+", label: "Projects Completed", color: "from-indigo-500 to-purple-500", icon: <Code className="w-6 h-6" /> },
+    //{ value: "1+", label: "Years Experience", color: "from-purple-500 to-pink-500", icon: <Clock className="w-6 h-6" /> },
     { value: "100%", label: "Satisfaction", color: "from-cyan-500 to-emerald-500", icon: <Users className="w-6 h-6" /> },
     { value: "24/7", label: "Available", color: "from-emerald-500 to-teal-500", icon: <Target className="w-6 h-6" /> },
   ];
@@ -49,10 +49,10 @@ export function AboutSection() {
 
   const techStack = [
     { name: "React.js", icon: "🕸️", color: "from-cyan-500 to-blue-500" },
-    { name: "Next.js", icon: "▲", color: "from-gray-800 to-gray-600" },
+    { name: "Angular", icon: "▲", color: "from-gray-800 to-gray-600" },
     { name: "Java", icon: "🍵", color: "from-green-500 to-yellow-500" },
     { name: "C&C# ", icon: "C", color: "from-green-600 to-emerald-600" },
-    { name: "AWS", icon: "☁️", color: "from-orange-500 to-red-500" },
+    { name: ".NET", icon: "☁️", color: "from-orange-500 to-red-500" },
     { name: "P.shop", icon: "Ps", color: "from-blue-900 to-blue-700 font-bold" },
 
 
@@ -117,7 +117,7 @@ export function AboutSection() {
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto gap-6 mb-16">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}

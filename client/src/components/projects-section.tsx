@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { GlassCard } from "./ui/glass-card";
 import { ExternalLink, Github, Loader2, Palette, Code, Database, Zap } from "lucide-react";
 import type { Project } from "@shared/schema";
@@ -139,6 +140,7 @@ const localProjects: Project[] = [
 ];
 
 export function ProjectsSection() {
+  const [, navigate] = useLocation();
   const { data: projects, isLoading, error } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
   });
@@ -210,7 +212,7 @@ export function ProjectsSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Recent <span className="gradient-text">Projects</span>
+             <span className="gradient-text">Projects</span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             A curated collection of projects across design, development, and
@@ -258,7 +260,16 @@ export function ProjectsSection() {
                         viewport={{ once: true }}
                         className="flex-shrink-0"
                       >
-                        <GlassCard className="p-6 w-80 h-full group" hover>
+                        <GlassCard 
+                          className="p-6 w-80 h-full group cursor-pointer" 
+                          hover
+                          onClick={() => {
+                            // Store the project data in session storage for the details page
+                            sessionStorage.setItem('selectedProject', JSON.stringify(project));
+                            // Navigate to the project details page with the slug
+                            navigate(`/project/${getSlug(project.title)}`);
+                          }}
+                        >
                           <div className="mb-4 relative overflow-hidden rounded-2xl">
                             <img
                               src={project.image}
